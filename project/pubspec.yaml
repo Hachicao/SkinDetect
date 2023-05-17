@@ -67,6 +67,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/logo.png
+    # - images/logo1.png
+    - images/logo2.png
     - images/iconprofile.png
     - images/splashimage.png
     - images/img2.png
@@ -74,6 +76,10 @@ flutter:
     - images/img5.png
     - images/img7.png
     - images/img8.png
+    - images/img31.png
+    - images/img23a.png
+    - images/img34.png
+    - images/img35.png
 
     
 
@@ -99,6 +105,6 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
