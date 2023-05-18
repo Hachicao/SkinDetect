@@ -21,10 +21,10 @@ class LoginScreen extends StatelessWidget {
               LoginHeaderWidget(size: size),
 
               /* ----section 2-[Form] ----*/
-              LoginForm(),
+              const LoginFormWidget(),
 
               /* ----section 3-[Footer] ----*/
-              LoginFooterWidget()
+              const LoginFooterWidget()
             ],
           ),
         ),

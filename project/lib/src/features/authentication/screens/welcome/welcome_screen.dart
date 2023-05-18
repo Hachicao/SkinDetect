@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/authentication/screens/login/login_screen.dart';
+import 'package:project/src/features/authentication/screens/signup/signup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -18,11 +18,6 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // const Positioned(
-            //   top: 0,
-            //   left: 0,
-            //   child: Image(image: AssetImage(tWelcomeScreenImageTop)),
-            // ),
             Image(
               image: const AssetImage(tWelcomeScreenImage),
               height: height * 0.5,
@@ -31,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
               Text(
                 tWelcomeTitle,
                 style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 35,
                     fontWeight: FontWeight.bold,
                     color: Colors.blue),
               ),
@@ -66,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => Get.to(() => const SignUpScreen()),
                       style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:project/src/common_widgets/forms/form_header_widget.dart';
+import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
-import '../login/widgets/login_footer_widget.dart';
-import '../login/widgets/login_form_widget.dart';
-import '../login/widgets/login_header_widget.dart';
+import 'package:project/src/constants/text_string.dart';
+import 'package:project/src/features/authentication/screens/signup/widgets/signup_footer_widget.dart';
+import 'package:project/src/features/authentication/screens/signup/widgets/signup_form_widget.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -14,16 +16,16 @@ class SignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(tDefaultSize),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              LoginHeaderWidget(size: size),
-
-              /* ----section 2-[Form] ----*/
-              LoginForm(),
-
-              /* ----section 3-[Footer] ----*/
-              LoginFooterWidget()
+              FormHeaderWidget(
+                image: tWelcomeScreenImage,
+                title: tSignUpTitle,
+                subTitle: tSignUpSubTitle,
+              ),
+              SignUpFormWidget(),
+              SignUpFooterWidget(),
             ],
           ),
         ),

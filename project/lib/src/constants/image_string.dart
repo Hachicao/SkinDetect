@@ -14,3 +14,4 @@ const String tWelcomeScreenImage = "images/logo2.png";
 const String tWelcomeScreenImageTop = "images/img31.png";
 const String tGoogleLogoImage = "images/img34.png";
 const String tFacebookLogoImage = "images/img35.png";
+const String tForgetPasswordImage = "images/img36.png";

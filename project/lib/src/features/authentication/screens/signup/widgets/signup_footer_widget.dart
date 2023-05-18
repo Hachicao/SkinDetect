@@ -1,12 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project/src/features/authentication/screens/signup/signup_screen.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:project/src/features/authentication/screens/login/login_screen.dart';
 
 import '../../../../../constants/image_string.dart';
 import '../../../../../constants/text_string.dart';
 
-class LoginFooterWidget extends StatelessWidget {
-  const LoginFooterWidget({
+class SignUpFooterWidget extends StatelessWidget {
+  const SignUpFooterWidget({
     super.key,
   });
 
@@ -40,13 +42,13 @@ class LoginFooterWidget extends StatelessWidget {
           height: 10.0,
         ),
         TextButton(
-            onPressed: () => Get.to(() => const SignUpScreen()),
+            onPressed: () => Get.to(() => const LoginScreen()),
             child: const Text.rich(TextSpan(
-                text: tDontHaveAccount,
+                text: tAlreadyHaveAnAccount,
                 style: TextStyle(color: Colors.black),
                 children: [
                   TextSpan(
-                    text: tSignup,
+                    text: tLogin,
                     style: TextStyle(color: Colors.blue),
                   )
                 ])))

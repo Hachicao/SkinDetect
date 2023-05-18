@@ -16,14 +16,14 @@ const String tWelcomeTitle = "SKINDETECT.AI";
 const String tWelcomeSubTitle = "Your health our concern!";
 
 //buttom name
-const String tLogin = "Login";
+const String tLogin = " Login";
 const String tSignup = " Sign Up";
 
 // Login screen text
 const String tLoginTitle = "Welcome Back";
 const String tLoginSubTitle = "You've been missed!";
 const String tRememberme = "Remember Me?";
-const String tAlreadyHaveAnAccount = "Already have an Account!";
+const String tAlreadyHaveAnAccount = " Already have an Account!";
 const String tDontHaveAccount = "Don't have an Account! ";
 
 // -- GLOBAL Texts
