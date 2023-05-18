@@ -1,11 +1,14 @@
 // On boarding text
 
-const String tOnBoardingTitle1 = "Your health our concern";
-const String tOnBoardingTitle2 = "Easly to check your skin";
-const String tOnBoardingTitle3 = "Your health our concern";
-const String tOnBoardingSubTitle1 = "Your health our concern";
-const String tOnBoardingSubTitle2 = "Your health our concern";
-const String tOnBoardingSubTitle3 = "Your health our concern";
+const String tOnBoardingTitle1 = "Early detection saves lives";
+const String tOnBoardingTitle2 = "Skin cancer is the cancer you can see";
+const String tOnBoardingTitle3 = "Our digital skin cancer companion";
+const String tOnBoardingSubTitle1 =
+    "Learning what to look for on your own skin gives you the power to detect cancer early when it’s easiest to cure, before it can become dangerous, disfiguring or deadly.";
+const String tOnBoardingSubTitle2 =
+    "Unlike cancers that develop inside the body, skin cancers form on the outside and are usually visible. That’s why skin exams, both at home and with a dermatologist, are especially vital.";
+const String tOnBoardingSubTitle3 =
+    "Navigate the World of Skin Cancer Detection and Prevention with Confidence";
 const String tOnBoardingCounter1 = "1/3";
 const String tOnBoardingCounter2 = "2/3";
 const String tOnBoardingCounter3 = "3/3";
@@ -37,8 +40,8 @@ const String tSignInWithGoogle = "Sign-In with Google";
 const String tSignInWithFacebook = "Sign-In with Facebook";
 
 // -- Sign Up Screen Text
-const String tSignUpTitle = "Get On Board!";
-const String tSignUpSubTitle = "Create your profile to start your Journey.";
+const String tSignUpTitle = "Getting Started!";
+const String tSignUpSubTitle = "Create an account to continue!";
 
 // -- Forget Password Text
 const String tForgetPasswordTitle = "Make Selection!";
@@ -54,3 +57,8 @@ const String tForgetPhoneSubTitle =
 // -- Forget Password Via E-Mail - Text
 const String tForgetMailSubTitle =
     "Enter your registered E-Mail to receive OTP";
+
+// -- OTP screen - Text
+const String tOtpTitle = "CO\nDE";
+const String tOtpSubTitle = "Verification";
+const String tOtpMessage = "Enter the verification code send at ";

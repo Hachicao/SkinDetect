@@ -22,13 +22,29 @@ class OnBoardingPageWidget extends StatelessWidget {
           height: size.height * 0.4,
         ),
         Column(children: [
-          Text(model.title),
+          Text(
+            model.title,
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Text(
             model.subTitle,
             textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.italic),
           ),
         ]),
-        Text(model.counterText),
+        Text(
+          model.counterText,
+          style: const TextStyle(fontWeight: FontWeight.w400),
+        ),
         const SizedBox(
           height: 60.0,
         )

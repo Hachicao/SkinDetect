@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
@@ -22,15 +23,19 @@ class WelcomeScreen extends StatelessWidget {
               image: const AssetImage(tWelcomeScreenImage),
               height: height * 0.5,
             ),
-            const Column(children: [
+            Column(children: [
               Text(
                 tWelcomeTitle,
-                style: TextStyle(
+                // style: TextStyle(
+                //     fontSize: 35,
+                //     fontWeight: FontWeight.bold,
+                //     color: Colors.blue),
+                style: GoogleFonts.bungee(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: const Color.fromARGB(255, 5, 95, 169)),
               ),
-              Text(
+              const Text(
                 tWelcomeSubTitle,
                 style: TextStyle(
                     fontSize: 20,
