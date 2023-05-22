@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:project/src/features/authentication/screens/forget_password/forget_password_options/forget_password_model_buttom_sheet.dart';
+import 'package:project/src/features/core/screens/dashboard/dashboard.dart';
 import '../../../../../constants/text_string.dart';
 
 class LoginFormWidget extends StatelessWidget {
@@ -59,7 +61,9 @@ class LoginFormWidget extends StatelessWidget {
             width: double.infinity,
             height: 50,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => const Dashboard());
+              },
               style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15))),

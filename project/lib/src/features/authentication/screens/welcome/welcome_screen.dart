@@ -26,12 +26,8 @@ class WelcomeScreen extends StatelessWidget {
             Column(children: [
               Text(
                 tWelcomeTitle,
-                // style: TextStyle(
-                //     fontSize: 35,
-                //     fontWeight: FontWeight.bold,
-                //     color: Colors.blue),
                 style: GoogleFonts.bungee(
-                    fontSize: 35,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 5, 95, 169)),
               ),

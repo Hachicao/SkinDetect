@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project/src/constants/image_string.dart';
+import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/authentication/controllers/splash_screen_controller.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -32,22 +34,24 @@ class SplashScreen extends StatelessWidget {
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 1000),
                 opacity: splashController.animate.value ? 1 : 0,
-                child: Column(children: [
-                  Image(
-                    image: const AssetImage(tSlashImage),
-                    width: width * 1,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    "SKIN DETECT.AI",
-                    style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue),
-                  ),
-                ]),
+                child: Column(
+                  children: [
+                    Image(
+                      image: const AssetImage(tSlashImage),
+                      width: width * 1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      tWelcomeTitle,
+                      style: GoogleFonts.bungee(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 5, 95, 169)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

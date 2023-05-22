@@ -6,7 +6,7 @@ const String tOnBoardingTitle3 = "Our digital skin cancer companion";
 const String tOnBoardingSubTitle1 =
     "Learning what to look for on your own skin gives you the power to detect cancer early when it’s easiest to cure, before it can become dangerous, disfiguring or deadly.";
 const String tOnBoardingSubTitle2 =
-    "Unlike cancers that develop inside the body, skin cancers form on the outside and are usually visible. That’s why skin exams, both at home and with a dermatologist, are especially vital.";
+    "Skin examinations, both at home and with a dermatologist, are crucial for this reason.";
 const String tOnBoardingSubTitle3 =
     "Navigate the World of Skin Cancer Detection and Prevention with Confidence";
 const String tOnBoardingCounter1 = "1/3";
@@ -62,3 +62,11 @@ const String tForgetMailSubTitle =
 const String tOtpTitle = "CO\nDE";
 const String tOtpSubTitle = "Verification";
 const String tOtpMessage = "Enter the verification code send at ";
+
+//-- Dashboard  - Text
+const String tDashboardTitle = "Hey, Samantha";
+const String tDashboardHeading = "Explore now";
+const String tDashboardSearch = "Search...";
+const String tDashboardBannerTitle1 = "Find the Right Symptoms";
+const String tDashboardBannerSubtitle = "Check Now";
+const String tDashboardSkincanncer = "Skin Cancer Symptoms";

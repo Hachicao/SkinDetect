@@ -24,6 +24,7 @@ class OnBoardingPageWidget extends StatelessWidget {
         Column(children: [
           Text(
             model.title,
+            textAlign: TextAlign.center,
             style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
