@@ -20,7 +20,7 @@ class DashboardBanners extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: tCarBgColor),
+                    color: tCarBgColor3),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child: const Column(
@@ -75,7 +75,7 @@ class DashboardBanners extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: tCarBgColor),
+                    color: tCarBgColor3),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child: const Column(

@@ -4,6 +4,7 @@ import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/appbar.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/banner.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/categories.dart';
+import 'package:project/src/features/core/screens/dashboard/widgets/navigation_bar.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/search.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/top_skincancer.dart';
 
@@ -67,6 +68,8 @@ class Dashboard extends StatelessWidget {
           ),
         ),
       ),
+      // navigation bar
+      bottomNavigationBar: const DashboardBottomNavigationBar(),
     );
   }
 }
