@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project/src/features/authentication/screens/forget_password/forget_password_options/forget_password_model_buttom_sheet.dart';
-import 'package:project/src/features/core/screens/dashboard/dashboard.dart';
+import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
 import '../../../../../constants/text_string.dart';
 
 class LoginFormWidget extends StatelessWidget {

@@ -70,7 +70,7 @@ class SignUpFormWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15))),
                 child: Text(tSignup.toUpperCase()),
               ),
-            )
+            ),
           ],
         ),
       ),

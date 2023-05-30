@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/appbar.dart';
@@ -7,6 +10,7 @@ import 'package:project/src/features/core/screens/dashboard/widgets/categories.d
 import 'package:project/src/features/core/screens/dashboard/widgets/navigation_bar.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/search.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/top_skincancer.dart';
+import 'package:project/src/features/core/screens/detect/skin_detect_screen.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -68,7 +72,18 @@ class Dashboard extends StatelessWidget {
           ),
         ),
       ),
-      // navigation bar
+
+      //camera Button
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => const SkinDetectScreen());
+        },
+        backgroundColor: const Color.fromARGB(221, 21, 117, 220),
+        foregroundColor: const Color.fromARGB(255, 244, 227, 77),
+        elevation: 0,
+        child: const Icon(Icons.camera_enhance_outlined),
+      ),
       bottomNavigationBar: const DashboardBottomNavigationBar(),
     );
   }

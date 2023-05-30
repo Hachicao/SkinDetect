@@ -25,8 +25,24 @@ class DashboardTopSkincancer extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10, top: 5),
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: tCarBgColor),
+                  borderRadius: BorderRadius.circular(10),
+                  // color: tCarBgColor4,
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(0.8, 1),
+                    colors: <Color>[
+                      Color(0xff1f005c),
+                      Color(0xff5b0060),
+                      Color(0xff870160),
+                      Color(0xffac255e),
+                      Color(0xffca485c),
+                      Color(0xffe16b5c),
+                      Color(0xfff39060),
+                      Color(0xffffb56b),
+                    ],
+                    tileMode: TileMode.mirror,
+                  ),
+                ),
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,6 +55,7 @@ class DashboardTopSkincancer extends StatelessWidget {
                             list[index].title,
                             style: const TextStyle(
                                 fontSize: 20,
+                                color: Colors.amberAccent,
                                 fontWeight: FontWeight.bold,
                                 overflow: TextOverflow.ellipsis),
                             maxLines: 2,
@@ -76,6 +93,7 @@ class DashboardTopSkincancer extends StatelessWidget {
                               list[index].subHeading,
                               style: const TextStyle(
                                   fontSize: 15,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.normal,
                                   overflow: TextOverflow.ellipsis),
                             ),

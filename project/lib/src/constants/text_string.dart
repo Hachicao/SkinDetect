@@ -69,4 +69,22 @@ const String tDashboardHeading = "Explore now";
 const String tDashboardSearch = "Search...";
 const String tDashboardBannerTitle1 = "Find the Right Symptoms";
 const String tDashboardBannerSubtitle = "Check Now";
-const String tDashboardSkincanncer = "Skin Cancer Symptoms";
+const String tDashboardSkincanncer = "SKIN CANCER SYMPTOMS";
+//-- Profile Screen -Text
+const String tProfile = "Profile";
+const String tEditProfile = "Edit Profile";
+const String tLogoutDialogHeading = "Logout";
+const String tProfileHeading = "Hey Sarama";
+const String tProfileSubHeading = "Admin@gmail.com";
+// -- Menu
+const String tMenu5 = "tLogout";
+const String tMenu1 = "Settings";
+const String tMenu4 = "Information";
+const String tMenu2 = "Billing Details";
+const String tMenu3 = "User Management";
+//-- Update Profile Screen - Text
+const String tDelete = "Delete";
+const String tJoined = "Joined: ";
+const String tJoinedAt = "01 June 2023";
+const String tUploadImg = "Upload Image";
+const String tTakePhoto = "Take Picture";
