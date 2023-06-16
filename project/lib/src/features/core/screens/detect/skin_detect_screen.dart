@@ -9,11 +9,12 @@ import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
 
 class SkinDetectScreen extends StatelessWidget {
-  const SkinDetectScreen({super.key});
+  const SkinDetectScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = SkinDetectController();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -26,7 +27,6 @@ class SkinDetectScreen extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(tDefaultSize),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Obx(() => controller.selectedImagePath.value == ''
                   ? const Image(image: AssetImage(tSlashImage))
@@ -34,51 +34,85 @@ class SkinDetectScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "Congatulation ! You don't have any problem.",
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
+              Obx(() {
+                final result = controller.result.value;
+                if (result == null) {
+                  return const Text(
+                    'Congratulation! Your skin is in excellent condition.',
+                    style: TextStyle(fontSize: 20, color: Colors.green),
+                  ); // Display nothing while result is null
+                } else {
+                  return Text(
+                    result.placement,
+                    style: const TextStyle(fontSize: 20, color: Colors.red),
+                  );
+                }
+              }),
               const SizedBox(
                 height: 10,
               ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: "URL",
-                ),
-              ),
+              // TextFormField(
+              //   decoration: const InputDecoration(
+              //     labelText: "URL",
+              //   ),
+              // ),
               const SizedBox(
                 height: 20,
               ),
               //upload image
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    controller.getImage(ImageSource.gallery);
-                  },
-                  label: Text(tUploadImg.toUpperCase()),
-                  icon: const Icon(Icons.upload_file_outlined),
-                  style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15))),
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        controller.getImage(ImageSource.gallery);
+                      },
+                      label: Text(tUploadImg.toUpperCase()),
+                      icon: const Icon(Icons.upload_file_outlined),
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 0,
+                        side: const BorderSide(color: Colors.blue),
+                        padding:
+                            const EdgeInsets.symmetric(vertical: tButtonHeight),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10.0,
+                  ),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        controller.getImage(ImageSource.camera);
+                      },
+                      label: Text(tTakePhoto.toUpperCase()),
+                      icon: const Icon(Icons.camera_alt_outlined),
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 0,
+                        side: const BorderSide(color: Colors.blue),
+                        padding:
+                            const EdgeInsets.symmetric(vertical: tButtonHeight),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 20,
               ),
-              // take picture
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    controller.getImage(ImageSource.camera);
+                    controller.uploadImage();
                   },
-                  label: Text(tTakePhoto.toUpperCase()),
-                  icon: const Icon(Icons.camera_alt_outlined),
+                  label: Text(tDetect.toUpperCase()),
+                  icon: const Icon(Icons.search_outlined),
                   style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15))),

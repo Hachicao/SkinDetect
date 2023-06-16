@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/appbar.dart';

@@ -72,6 +72,7 @@ const String tDashboardBannerSubtitle = "Check Now";
 const String tDashboardSkincanncer = "SKIN CANCER SYMPTOMS";
 //-- Profile Screen -Text
 const String tProfile = "Profile";
+const String tHistory = "History";
 const String tEditProfile = "Edit Profile";
 const String tLogoutDialogHeading = "Logout";
 const String tProfileHeading = "Hey Sarama";
@@ -88,3 +89,4 @@ const String tJoined = "Joined: ";
 const String tJoinedAt = "01 June 2023";
 const String tUploadImg = "Upload Image";
 const String tTakePhoto = "Take Picture";
+const String tDetect = "Detect";

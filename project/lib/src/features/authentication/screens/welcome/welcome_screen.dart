@@ -23,23 +23,25 @@ class WelcomeScreen extends StatelessWidget {
               image: const AssetImage(tWelcomeScreenImage),
               height: height * 0.5,
             ),
-            Column(children: [
-              Text(
-                tWelcomeTitle,
-                style: GoogleFonts.bungee(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 5, 95, 169)),
-              ),
-              const Text(
-                tWelcomeSubTitle,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.amber),
-                textAlign: TextAlign.center,
-              ),
-            ]),
+            Column(
+              children: [
+                Text(
+                  tWelcomeTitle,
+                  style: GoogleFonts.bungee(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromARGB(255, 5, 95, 169)),
+                ),
+                const Text(
+                  tWelcomeSubTitle,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.amber),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
             Row(
               children: [
                 Expanded(
