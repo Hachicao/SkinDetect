@@ -14,17 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Skin cancer detection',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
-      themeMode: ThemeMode.system,
-      home: FutureBuilder(
-        builder: (context, snapshot) {
-          return SplashScreen();
-        },
-        future: null,
-      ),
+      defaultTransition: Transition.leftToRightWithFade,
+      transitionDuration: const Duration(microseconds: 500),
+      home: SplashScreen(),
     );
   }
 }
