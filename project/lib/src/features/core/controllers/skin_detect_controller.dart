@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/src/common_widgets/api_constanst/api_constanst.dart';
-import 'package:project/src/features/authentication/controllers/user_controller.dart';
+import 'package:project/src/features/core/controllers/user_controller.dart';
 import 'package:project/src/features/authentication/models/user_model.dart';
 import 'package:project/src/features/core/models/dashboard/result.dart';
 

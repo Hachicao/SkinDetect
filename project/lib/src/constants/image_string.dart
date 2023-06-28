@@ -22,3 +22,4 @@ const String tBanner1 = "images/img39.png";
 const String tBookmarkIcon = "images/img40.png";
 const String tBanner2 = "images/img28.png";
 const String tSkincancer1 = "images/img41.png";
+const String tTestIamge = "images/testimage.png";

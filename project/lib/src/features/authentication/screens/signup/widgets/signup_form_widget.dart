@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project/src/constants/text_string.dart';
-import 'package:project/src/features/authentication/controllers/user_controller.dart';
+import 'package:project/src/features/core/controllers/user_controller.dart';
 
 class SignUpFormWidget extends StatefulWidget {
   SignUpFormWidget({Key? key}) : super(key: key);

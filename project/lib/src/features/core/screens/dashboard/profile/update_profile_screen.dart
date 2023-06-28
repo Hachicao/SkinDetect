@@ -63,14 +63,20 @@ class UpdateProfileScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     TextFormField(
                       decoration: const InputDecoration(
-                          label: Text(tEmail),
-                          prefixIcon: Icon(LineAwesomeIcons.envelope_1)),
+                          label: Text(tAddress),
+                          prefixIcon: Icon(LineAwesomeIcons.address_card)),
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
                       decoration: const InputDecoration(
                           label: Text(tPhoneNo),
                           prefixIcon: Icon(LineAwesomeIcons.phone)),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                          label: Text(tEmail),
+                          prefixIcon: Icon(LineAwesomeIcons.mail_bulk)),
                     ),
                     const SizedBox(height: 10),
                     TextFormField(

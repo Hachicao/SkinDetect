@@ -1,5 +1,5 @@
 class User {
-  int userId;
+  int? userId;
   String userName;
   String userAddress;
   String userPhone;
@@ -23,7 +23,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userId: json['user_id'],
+      userId: json['user_id'] as int?,
       userName: json['user_name'].toString(),
       userAddress: json['user_address'].toString(),
       userPhone: json['user_phone'].toString(),
@@ -35,7 +35,7 @@ class User {
     );
   }
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['user_id'] = userId;
     data['user_name'] = userName;
     data['user_address'] = userAddress;
@@ -47,40 +47,4 @@ class User {
     data['user_avatar'] = userAvatar;
     return data;
   }
-
-  int get getUserId => userId;
-
-  set setUserId(int userId) => this.userId = userId;
-
-  String get getUserName => userName;
-
-  set setUserName(String userName) => this.userName = userName;
-
-  String get getUserAddress => userAddress;
-
-  set setUserAddress(String userAddress) => this.userAddress = userAddress;
-
-  String get getUserPhone => userPhone;
-
-  set setUserPhone(String userPhone) => this.userPhone = userPhone;
-
-  String get getUserDob => userDob;
-
-  set setUserDob(String userDob) => this.userDob = userDob;
-
-  String get getUserStatus => userStatus;
-
-  set setUserStatus(String userStatus) => this.userStatus = userStatus;
-
-  String get getUserEmail => userEmail;
-
-  set setUserEmail(String userEmail) => this.userEmail = userEmail;
-
-  String get getUserPassword => userPassword;
-
-  set setUserPassword(String userPassword) => this.userPassword = userPassword;
-
-  String get getUserAvatar => userAvatar;
-
-  set setUserAvatar(String userAvatar) => this.userAvatar = userAvatar;
 }

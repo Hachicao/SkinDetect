@@ -4,12 +4,15 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/src/common_widgets/api_constanst/api_constanst.dart';
 import 'package:project/src/features/authentication/models/user_model.dart';
+import 'package:project/src/features/authentication/screens/login/login_screen.dart';
+import 'package:project/src/features/core/models/dashboard/history_model.dart';
 import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserController extends GetxController {
   RxBool con = true.obs;
   Rx<User?> user = Rx<User?>(null);
+  Rx<HistoryModel?> history = Rx<HistoryModel?>(null);
 
   static final _loginUrl = APIConstants.loginUrl;
   static final _registerUrl = APIConstants.registerUrl;
@@ -39,12 +42,11 @@ class UserController extends GetxController {
 
       if (result == 0) {
         final userInstance = User.fromJson(dataReceived);
-        userInstance.setUserId = userInstance.userId;
-        user.value = userInstance;
-
+        final jsonString = jsonEncode(userInstance);
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('user_id', userInstance.userId);
-        print('user_id: ${user.value!.userId}');
+        await prefs.setString('user', jsonEncode(jsonString));
+        print("prefs : $prefs");
+        print('user saved to shared preferences}');
         Get.snackbar("Successfull", "Successfull",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.green,
@@ -63,7 +65,16 @@ class UserController extends GetxController {
 
   Future<int?> getUserIdFromStorage() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id');
+    final userJson = prefs.getString('user');
+    print('userJson: $userJson');
+    if (userJson != null) {
+      final userMap = jsonDecode(userJson) as Map<String, dynamic>;
+      final userId = userMap['user_id'] as int?;
+      return userId;
+    }
+
+    // User object not found, return a default value or null
+    return null;
   }
 
   Future<void> registerUser(
@@ -84,7 +95,7 @@ class UserController extends GetxController {
       final result = dataReceived['placement'];
       if (result == 0) {
         print("Successfully");
-        Get.to(() => const Dashboard());
+        Get.to(() => const LoginScreen());
       } else {
         Get.snackbar("Error", "Please choose another email",
             snackPosition: SnackPosition.BOTTOM,

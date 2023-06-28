@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project/src/constants/color.dart';
 import 'package:project/src/features/core/models/dashboard/top_skincancer_model.dart';
 
 class DashboardTopSkincancer extends StatelessWidget {

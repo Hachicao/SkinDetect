@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project/src/features/authentication/controllers/user_controller.dart';
+import 'package:project/src/features/core/controllers/user_controller.dart';
 import 'package:project/src/features/authentication/screens/forget_password/forget_password_options/forget_password_model_buttom_sheet.dart';
 import '../../../../../constants/text_string.dart';
 
