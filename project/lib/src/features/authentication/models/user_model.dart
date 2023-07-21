@@ -1,13 +1,13 @@
 class User {
-  int? userId;
+  String userId;
   String userName;
-  String userAddress;
-  String userPhone;
-  String userDob;
-  String userStatus;
+  String? userAddress;
+  String? userPhone;
+  String? userDob;
+  String? userStatus;
   String userEmail;
   String userPassword;
-  String userAvatar;
+  String? userAvatar;
 
   User({
     required this.userId,
@@ -23,7 +23,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userId: json['user_id'] as int?,
+      userId: json['user_id'].toString(),
       userName: json['user_name'].toString(),
       userAddress: json['user_address'].toString(),
       userPhone: json['user_phone'].toString(),
