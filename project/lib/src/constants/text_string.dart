@@ -86,7 +86,7 @@ const String tMenu4 = "Information";
 const String tMenu2 = "Billing Details";
 const String tMenu3 = "User Management";
 //-- Update Profile Screen - Text
-const String tDelete = "Delete";
+const String tClear = "Clear";
 const String tJoined = "Joined: ";
 const String tJoinedAt = "01 June 2023";
 const String tUploadImg = "Upload Image";

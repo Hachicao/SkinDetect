@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
+import '../../../controllers/user_controller.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
-  const UpdateProfileScreen({Key? key}) : super(key: key);
+  UpdateProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.put(ProfileController());
+    UserController userController = Get.put(UserController());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -55,48 +57,165 @@ class UpdateProfileScreen extends StatelessWidget {
               Form(
                 child: Column(
                   children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          label: Text(tFullName),
-                          prefixIcon: Icon(LineAwesomeIcons.user)),
+                    FutureBuilder<String?>(
+                      // future: userController.getUserName(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return TextFormField(
+                            controller: userController.nameController,
+                            // initialValue: snapshot.data ?? '',
+                            decoration: const InputDecoration(
+                              label: Text(tFullName),
+                              prefixIcon: Icon(LineAwesomeIcons.user),
+                            ),
+                          );
+                        }
+                      },
                     ),
                     const SizedBox(height: 10),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          label: Text(tAddress),
-                          prefixIcon: Icon(LineAwesomeIcons.address_card)),
+                    FutureBuilder<String?>(
+                      // future: userController.getUserAddress(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return TextFormField(
+                            // initialValue: snapshot.data ?? '',
+                            controller: userController.addressController,
+                            decoration: const InputDecoration(
+                                label: Text(tAddress),
+                                prefixIcon:
+                                    Icon(LineAwesomeIcons.address_card)),
+                          );
+                        }
+                      },
                     ),
+
+                    //date picker
                     const SizedBox(height: 10),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          label: Text(tPhoneNo),
-                          prefixIcon: Icon(LineAwesomeIcons.phone)),
+                    //date picker
+                    FutureBuilder<String?>(
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return TextFormField(
+                            // controller: dateinput.text == '' ? null : dateinput,
+                            controller: userController.birthdayController,
+                            decoration: const InputDecoration(
+                                label: Text(tDob),
+                                prefixIcon: Icon(LineAwesomeIcons.calendar)),
+                            readOnly: true,
+                            onTap: () async {
+                              final DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              );
+                              if (picked != null) {
+                                print(picked);
+                                String formattedDate = DateFormat('yyyy-MM-dd')
+                                    .format(picked)
+                                    .toString();
+                                print(formattedDate);
+                                userController.birthdayController.text =
+                                    formattedDate;
+                              } else {
+                                print('date not selected');
+                              }
+                            },
+                          );
+                        }
+                      },
                     ),
+
                     const SizedBox(height: 10),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          label: Text(tEmail),
-                          prefixIcon: Icon(LineAwesomeIcons.mail_bulk)),
+                    FutureBuilder<String?>(
+                      // future: userController.getUserPhone(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return TextFormField(
+                            // initialValue: snapshot.data ?? '',
+                            controller: userController.phoneController,
+                            decoration: const InputDecoration(
+                                label: Text(tPhoneNo),
+                                prefixIcon: Icon(LineAwesomeIcons.phone)),
+                          );
+                        }
+                      },
                     ),
+
                     const SizedBox(height: 10),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        label: const Text(tPassword),
-                        prefixIcon: const Icon(Icons.fingerprint),
-                        suffixIcon: IconButton(
-                            icon: const Icon(LineAwesomeIcons.eye_slash),
-                            onPressed: () {}),
-                      ),
+                    FutureBuilder<String?>(
+                      // future: userController.getUserEmail(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return TextFormField(
+                            // initialValue: snapshot.data ?? '',
+                            controller: userController.emailController,
+                            decoration: const InputDecoration(
+                                label: Text(tEmail),
+                                prefixIcon: Icon(LineAwesomeIcons.mail_bulk)),
+                          );
+                        }
+                      },
                     ),
+
+                    const SizedBox(height: 10),
+                    FutureBuilder<String?>(
+                      // future: userController.getUserPassword(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return TextFormField(
+                            // initialValue: snapshot.data ?? '',
+                            controller: userController.passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              label: const Text(tPassword),
+                              prefixIcon: const Icon(Icons.fingerprint),
+                              suffixIcon: IconButton(
+                                  icon: const Icon(LineAwesomeIcons.eye_slash),
+                                  onPressed: () {}),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+
                     const SizedBox(height: 20),
 
                     // -- Form Submit Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () =>
-                            Get.to(() => const UpdateProfileScreen()),
+                        onPressed: () => userController.updateUser(),
                         style: ElevatedButton.styleFrom(
                             // backgroundColor: tPrimaryColor,
                             side: BorderSide.none,
@@ -125,7 +244,14 @@ class UpdateProfileScreen extends StatelessWidget {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            userController.nameController.clear();
+                            userController.addressController.clear();
+                            userController.birthdayController.clear();
+                            userController.phoneController.clear();
+                            userController.emailController.clear();
+                            userController.passwordController.clear();
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Colors.redAccent.withOpacity(0.1),
@@ -133,7 +259,7 @@ class UpdateProfileScreen extends StatelessWidget {
                               foregroundColor: Colors.red,
                               shape: const StadiumBorder(),
                               side: BorderSide.none),
-                          child: const Text(tDelete),
+                          child: const Text(tClear),
                         ),
                       ],
                     )
