@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                 width: 200,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => const UpdateProfileScreen());
+                    Get.to(() => UpdateProfileScreen());
                   },
                   style: ElevatedButton.styleFrom(
                       // backgroundColor: tPrimaryColor,

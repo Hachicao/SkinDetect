@@ -49,7 +49,7 @@ class SkinDetectController extends GetxController {
       final base64Image = base64Encode(bytes);
       final confidence_score = 0.9;
       final userController = Get.find<UserController>();
-      final user_id = await userController.getUserIdFromStorage();
+      final user_id = await userController.getUserId();
       print("user_id : $user_id ");
       final response = await http.post(
         Uri.parse(apiUrl),

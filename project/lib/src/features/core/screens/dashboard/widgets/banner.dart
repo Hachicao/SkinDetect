@@ -23,7 +23,7 @@ class DashboardBanners extends StatelessWidget {
                     color: tCarBgColor3),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
@@ -78,7 +78,7 @@ class DashboardBanners extends StatelessWidget {
                     color: tCarBgColor3),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
