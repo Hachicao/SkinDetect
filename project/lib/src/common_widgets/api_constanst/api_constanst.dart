@@ -1,7 +1,5 @@
 class APIConstants {
-  static const String baseUrl = "https://dade-103-17-88-39.ngrok-free.app";
-  // static const String baseUrl = "http://10.0.2.2:5000";
-
+  static const String baseUrl = "https://7298-180-148-3-228.ngrok-free.app";
   static final Uri loginUrl = Uri.parse('$baseUrl/loginMobile');
   static final Uri registerUrl = Uri.parse('$baseUrl/registerMobile');
   static final Uri updateUrl = Uri.parse('$baseUrl/updateMobile');

@@ -21,6 +21,8 @@ class UserController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+
   static final _loginUrl = APIConstants.loginUrl;
   static final _registerUrl = APIConstants.registerUrl;
   static final _updateUrl = APIConstants.updateUrl;
@@ -60,6 +62,7 @@ class UserController extends GetxController {
           phoneController.text = userModel!.userPhone ?? '';
           passwordController.text = userModel!.userPassword;
           addressController.text = userModel!.userAddress ?? '';
+          userIdController.text = userModel!.userId.toString();
           print('userModel: $userModel');
           print('userModel: ${userModel!.userEmail}');
           print('userModel: ${userModel!.userPassword}');
@@ -112,11 +115,13 @@ class UserController extends GetxController {
     }
   }
 
+  //get user model getter
+  User? get getUserModel => userModel;
+
   //get userId from ojbect user shared preferences
   Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userJson = prefs.getString('user') ?? '';
-
     Map<String, dynamic> userMap = json.decode(userJson);
     User user = User.fromJson(userMap);
     print('user.userId.toString(): ${user.userId.toString()}');
@@ -210,7 +215,8 @@ class UserController extends GetxController {
       'user_address': addressController.text,
       'user_phone': phoneController.text,
       'user_dob': birthdayController.text,
-      'user_id': await getUserId() ?? ''
+      // 'user_id': await getUserId() ?? ''
+      'user_id': userIdController.text
     };
     final response = await http.post(_updateUrl, headers: headers, body: body);
     if (response.statusCode == 200) {

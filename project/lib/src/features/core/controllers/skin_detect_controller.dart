@@ -14,7 +14,9 @@ class SkinDetectController extends GetxController {
   var selectedImageSize = ''.obs;
   final apiUrl = APIConstants.getImageUrl;
   Rx<Result?> result = Rx<Result?>(null);
-  Rx<User?> user = Rx<User?>(null);
+  User? userModel;
+  final UserController userController = Get.find<UserController>();
+
   void getImage(ImageSource imageSource) async {
     final XFile? pickedFile =
         await ImagePicker().pickImage(source: imageSource);
@@ -48,16 +50,20 @@ class SkinDetectController extends GetxController {
       final bytes = await file.readAsBytes();
       final base64Image = base64Encode(bytes);
       final confidence_score = 0.9;
-      final userController = Get.find<UserController>();
-      final user_id = await userController.getUserId();
-      print("user_id : $user_id ");
+      final userModel = userController.getUserModel;
+      final user_id = userModel?.userId.toString();
+      final body = {
+        'file': base64Image,
+        'confidence_score': confidence_score.toString(),
+        'user_id': user_id,
+      };
+      final headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
       final response = await http.post(
         Uri.parse(apiUrl),
-        body: {
-          'file': base64Image,
-          'confidence_score': confidence_score.toString(),
-          'user_id': user_id.toString()
-        },
+        body: body,
+        headers: headers,
       );
 
       // Handle the API response
@@ -67,11 +73,11 @@ class SkinDetectController extends GetxController {
         final jsonResponse = jsonDecode(response.body);
         result.value = Result.fromJson(jsonResponse);
         print('Placement: ${result.value!.placement}');
-        print('Ymin: ${result.value!.ymin}');
-        print('Xmin: ${result.value!.xmin}');
-        print('Ymax: ${result.value!.ymax}');
-        print('Xmax: ${result.value!.xmax}');
-        print('Score: ${result.value!.score}');
+        // print('Ymin: ${result.value!.ymin}');
+        // print('Xmin: ${result.value!.xmin}');
+        // print('Ymax: ${result.value!.ymax}');
+        // print('Xmax: ${result.value!.xmax}');
+        // print('Score: ${result.value!.score}');
       } else {
         // Error
         print('Failed to upload image. Error: ${response.statusCode}');
