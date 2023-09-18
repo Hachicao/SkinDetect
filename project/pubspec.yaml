@@ -30,6 +30,9 @@ dependencies:
   shared_preferences: ^2.1.2
   intl: ^0.18.1
   awesome_dialog: ^3.1.0
+  image_card: ^0.0.4
+  percent_indicator: ^4.2.3
+  persistent_bottom_nav_bar: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +70,7 @@ flutter:
     - images/img41.png
     - images/img28.png
     - images/testimge.png
+    - images/folder.png
 
     
 

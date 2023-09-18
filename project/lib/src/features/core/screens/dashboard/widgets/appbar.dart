@@ -16,7 +16,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
         "Welcome",
         style: TextStyle(
           fontSize: 20,
-          color: Colors.orange,
+          color: Color.fromARGB(255, 229, 215, 87),
         ),
       ),
       elevation: 0,

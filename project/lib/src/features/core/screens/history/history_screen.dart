@@ -1,16 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/text_string.dart';
-import 'package:project/src/features/core/models/dashboard/history_model.dart';
+import 'package:project/src/features/authentication/models/user_model.dart';
+import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
 
 class HistoryScreen extends StatelessWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  HistoryScreen({Key? key}) : super(key: key);
+  final skinDetectController = Get.find<SkinDetectController>();
 
+  final Rx<User?> _userRx = Rx<User?>(null);
   @override
   Widget build(BuildContext context) {
-    final list = HistoryModel.list;
+    // Fetch history when the screen is built
+    skinDetectController.fetchHistory();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -22,82 +29,65 @@ class HistoryScreen extends StatelessWidget {
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: 150,
-          child: ListView.builder(
-            itemCount: list.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            padding: const EdgeInsets.all(10),
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: list[index].onPress,
-              child: SizedBox(
-                width: 320,
-                height: 150,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10, top: 5),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: tColorNavigationBar,
+      body: Obx(() {
+        // check if the user has changed
+        // final user = skinDetectController.currentUser.value;
+        // if (user == null) {
+        //   return const Center(
+        //     child: Text('No User Logged in.'),
+        //   );
+        // }
+        // check if the history list is empty
+        if (skinDetectController.historyList.isEmpty) {
+          return const Center(
+            child: Text('No data available.'),
+          );
+        } else {
+          return ListView.builder(
+            itemCount: skinDetectController.historyList.length,
+            itemBuilder: (BuildContext context, int index) {
+              final historyItem = skinDetectController.historyList[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: ListTile(
+                    leading: Image.memory(
+                      base64Decode(historyItem.image),
+                      fit: BoxFit.cover,
+                      width: 70,
+                      height: 70,
                     ),
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image(
-                            image: AssetImage(list[index].image),
-                            height: 110,
-                            width: 110,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                list[index].name,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                maxLines: 2,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                list[index].dateTime,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                          ),
-                          onPressed: () {},
-                          child: const Icon(Icons.delete_outline_outlined),
-                        ),
-                      ],
+                    title: Text(
+                      historyItem.name,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      historyItem.dateTime,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {
+                        // Handle delete action here
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: tPrimaryColor,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ),
-      ),
+              );
+            },
+          );
+        }
+      }),
     );
   }
 }

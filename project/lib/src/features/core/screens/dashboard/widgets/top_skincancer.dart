@@ -30,8 +30,8 @@ class DashboardTopSkincancer extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment(0.8, 1),
                     colors: <Color>[
-                      Color(0xff1f005c),
-                      Color(0xff5b0060),
+                      Color.fromARGB(255, 1, 7, 120),
+                      Color.fromARGB(255, 10, 3, 131),
                       Color(0xff870160),
                       Color(0xffac255e),
                       Color(0xffca485c),

@@ -8,6 +8,7 @@ import 'package:project/src/features/authentication/screens/login/login_screen.d
 import 'package:project/src/features/core/models/dashboard/history_model.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
 import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
+import 'package:project/src/features/core/screens/main_dashboard/dashboard_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -83,7 +84,7 @@ class UserController extends GetxController {
             ),
             btnOkIcon: Icons.check_circle,
             btnOkOnPress: () {
-              Get.to(() => const Dashboard());
+              Get.to(() => const DashboardScreen());
             },
           ).show();
         } else {

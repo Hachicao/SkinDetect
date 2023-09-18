@@ -4,7 +4,7 @@ class Result {
   late String xmin;
   late String ymax;
   late String xmax;
-  late String score;
+  late double score;
 
   Result({
     required this.placement,

@@ -16,5 +16,9 @@ class DashboardTopSkinCancerModel {
         "Skin cancer detection", null),
     DashboardTopSkinCancerModel("How can protect the skin cancer", tBanner1,
         '3 Sections', "Skin cancer detection", null),
+    DashboardTopSkinCancerModel("How can protect the skin cancer", tBanner1,
+        '3 Sections', "Skin cancer detection", null),
+    DashboardTopSkinCancerModel("How can protect the skin cancer", tBanner1,
+        '3 Sections', "Skin cancer detection", null),
   ];
 }

@@ -8,7 +8,7 @@ import 'package:project/src/constants/text_string.dart';
 import '../../../controllers/user_controller.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
-  UpdateProfileScreen({Key? key}) : super(key: key);
+  const UpdateProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,8 @@ class UpdateProfileScreen extends StatelessWidget {
         leading: IconButton(
             onPressed: () => Get.back(),
             icon: const Icon(LineAwesomeIcons.angle_left)),
-        title: Text(tEditProfile, style: Theme.of(context).textTheme.headline4),
+        title: Text(tEditProfile,
+            style: Theme.of(context).textTheme.headlineMedium),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -76,6 +77,7 @@ class UpdateProfileScreen extends StatelessWidget {
                           );
                         }
                       },
+                      future: null,
                     ),
                     const SizedBox(height: 10),
                     FutureBuilder<String?>(
@@ -97,6 +99,7 @@ class UpdateProfileScreen extends StatelessWidget {
                           );
                         }
                       },
+                      future: null,
                     ),
 
                     //date picker
@@ -139,6 +142,7 @@ class UpdateProfileScreen extends StatelessWidget {
                           );
                         }
                       },
+                      future: null,
                     ),
 
                     const SizedBox(height: 10),
@@ -160,6 +164,7 @@ class UpdateProfileScreen extends StatelessWidget {
                           );
                         }
                       },
+                      future: null,
                     ),
 
                     const SizedBox(height: 10),
@@ -181,6 +186,7 @@ class UpdateProfileScreen extends StatelessWidget {
                           );
                         }
                       },
+                      future: null,
                     ),
 
                     const SizedBox(height: 10),
@@ -207,6 +213,7 @@ class UpdateProfileScreen extends StatelessWidget {
                           );
                         }
                       },
+                      future: null,
                     ),
 
                     const SizedBox(height: 20),
