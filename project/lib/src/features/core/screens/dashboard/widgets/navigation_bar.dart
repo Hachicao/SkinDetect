@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
 import 'package:project/src/features/core/screens/detect/skin_detect_screen.dart';
 import 'package:project/src/features/core/screens/history/history_screen.dart';
@@ -22,7 +24,7 @@ class _DashboardBottomNavigationBarState
   final List<Widget> screens = [
     const Dashboard(),
     // Container(color: Colors.red),
-    Container(color: Colors.blue),
+    Container(color: Colors.grey[50]),
     const SkinDetectScreen(),
     HistoryScreen(),
     const ProfileScreen(),
@@ -34,14 +36,14 @@ class _DashboardBottomNavigationBarState
         Icons.home,
       ),
       title: ("Home"),
-      inactiveIcon: const Icon(Icons.home, color: Colors.black),
+      inactiveIcon: const Icon(Icons.home, color: tIcon),
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(
         Icons.search,
       ),
       title: ("Search"),
-      inactiveIcon: const Icon(Icons.search, color: Colors.black),
+      inactiveIcon: const Icon(Icons.search, color: tIcon),
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(
@@ -49,21 +51,21 @@ class _DashboardBottomNavigationBarState
         color: Colors.white,
       ),
       title: ("Detect"),
-      inactiveIcon: const Icon(Icons.camera_alt_outlined, color: Colors.black),
+      inactiveIcon: const Icon(Icons.camera_alt_outlined, color: tIcon),
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(
         Icons.history,
       ),
       title: ("History"),
-      inactiveIcon: const Icon(Icons.history, color: Colors.black),
+      inactiveIcon: const Icon(Icons.history, color: tIcon),
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(
         Icons.person,
       ),
       title: ("Profile"),
-      inactiveIcon: const Icon(Icons.person, color: Colors.black),
+      inactiveIcon: const Icon(Icons.person, color: tIcon),
     ),
   ];
 
@@ -74,8 +76,11 @@ class _DashboardBottomNavigationBarState
       // controller: controler,
       screens: screens,
       items: items,
-      backgroundColor: const Color.fromARGB(255, 217, 232, 240),
-      decoration: NavBarDecoration(borderRadius: BorderRadius.circular(10)),
+      backgroundColor: Colors.blueGrey.shade100,
+      decoration: NavBarDecoration(
+        borderRadius: BorderRadius.circular(0),
+        colorBehindNavBar: Colors.white,
+      ),
       navBarStyle: NavBarStyle.style15,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,

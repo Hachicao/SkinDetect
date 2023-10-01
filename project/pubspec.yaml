@@ -33,6 +33,7 @@ dependencies:
   image_card: ^0.0.4
   percent_indicator: ^4.2.3
   persistent_bottom_nav_bar: ^5.0.2
+  fan_floating_menu: ^0.0.1
 
 dev_dependencies:
   flutter_test:

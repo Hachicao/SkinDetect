@@ -7,10 +7,7 @@ import 'package:project/src/features/core/screens/dashboard/widgets/banner.dart'
 import 'package:project/src/features/core/screens/dashboard/widgets/categories.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/search.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/top_skincancer.dart';
-import 'package:project/src/features/core/screens/detect/skin_detect_screen.dart';
-
 import '../../controllers/user_controller.dart';
-import '../dashboard/widgets/navigation_bar.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -19,55 +16,54 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     UserController userController = Get.put(UserController());
     final userModel = userController.getUserModel;
-    final user_name = userModel?.userName.toString();
-    return SafeArea(
-      child: Scaffold(
-        appBar: const DashboardAppBar(),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(tDefaultSize),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //Heading
-                Text(
-                  "Hey $user_name",
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
+    final userName = userModel?.userName.toString();
+    return Scaffold(
+      // backgroundColor: const Color(0xFF02A9FF).withOpacity(0.2),
+      appBar: const DashboardAppBar(),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(tDefaultSize),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //Heading
+              Text(
+                "Hey $userName",
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
 
-                SizedBox(
-                  height: 20,
-                ),
+              const SizedBox(
+                height: 20,
+              ),
 
-                //search box
-                DashboardSearchBox(),
-                SizedBox(
-                  height: 20,
-                ),
+              //search box
+              const DashboardSearchBox(),
+              const SizedBox(
+                height: 20,
+              ),
 
-                //categories
-                DashboardCategories(),
-                SizedBox(
-                  height: 20,
-                ),
+              //categories
+              const DashboardCategories(),
+              const SizedBox(
+                height: 20,
+              ),
 
-                //banner
-                DashboardBanners(),
-                SizedBox(
-                  height: 20,
-                ),
+              //banner
+              const DashboardBanners(),
+              const SizedBox(
+                height: 20,
+              ),
 
-                Text(
-                  tDashboardSkincanncer,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                //Top skin cancer
-                DashboardTopSkincancer(),
-              ],
-            ),
+              const Text(
+                tDashboardSkincanncer,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              //Top skin cancer
+              const DashboardTopSkincancer(),
+            ],
           ),
         ),
       ),

@@ -5,7 +5,9 @@ class Result {
   late String ymax;
   late String xmax;
   late double score;
-
+  late String date;
+  late String time;
+  late String id;
   Result({
     required this.placement,
     required this.ymin,
@@ -13,16 +15,22 @@ class Result {
     required this.ymax,
     required this.xmax,
     required this.score,
+    required this.date, // Initialize date field
+    required this.time,
+    required this.id,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
-      placement: json['placement'],
-      ymin: json['ymin'],
-      xmin: json['xmin'],
-      ymax: json['ymax'],
-      xmax: json['xmax'],
-      score: json['score'],
+      placement: json['placement'].toString(),
+      ymin: json['ymin'].toString(),
+      xmin: json['xmin'].toString(),
+      ymax: json['ymax'].toString(),
+      xmax: json['xmax'].toString(),
+      score: json['score'].toDouble(),
+      date: json['date'].toString(),
+      time: json['time'].toString(),
+      id: json['id'].toString(),
     );
   }
 }

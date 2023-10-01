@@ -40,7 +40,7 @@ class HistoryScreen extends StatelessWidget {
         // check if the history list is empty
         if (skinDetectController.historyList.isEmpty) {
           return const Center(
-            child: Text('No data available.'),
+            child: CircularProgressIndicator(),
           );
         } else {
           return ListView.builder(

@@ -5,6 +5,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
+import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
 import '../../../controllers/user_controller.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
@@ -39,15 +40,20 @@ class UpdateProfileScreen extends StatelessWidget {
                   Positioned(
                     bottom: 0,
                     right: 0,
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.yellow,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(() => const ProfileScreen());
+                      },
+                      child: Container(
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.yellow,
+                        ),
+                        child: const Icon(LineAwesomeIcons.camera,
+                            color: Colors.black, size: 20),
                       ),
-                      child: const Icon(LineAwesomeIcons.camera,
-                          color: Colors.black, size: 20),
                     ),
                   ),
                 ],

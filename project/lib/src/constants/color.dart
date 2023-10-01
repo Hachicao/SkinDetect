@@ -13,3 +13,4 @@ const tCarBgColor3 = Color.fromARGB(255, 249, 214, 36);
 const tCarBgColor1 = Color.fromARGB(255, 221, 220, 216);
 const tCarBgColor5 = Color.fromARGB(255, 238, 149, 16);
 const tColorNavigationBar = Color.fromARGB(255, 45, 46, 53);
+const tIcon = Colors.black;
