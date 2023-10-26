@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
@@ -15,12 +16,16 @@ class UpdateProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     UserController userController = Get.put(UserController());
     return Scaffold(
+      backgroundColor: tbackgroundColor,
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Get.back(),
-            icon: const Icon(LineAwesomeIcons.angle_left)),
-        title: Text(tEditProfile,
-            style: Theme.of(context).textTheme.headlineMedium),
+        elevation: 0,
+        backgroundColor: tAppbarColor,
+        title: const Text(tEditProfile,
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -42,23 +47,23 @@ class UpdateProfileScreen extends StatelessWidget {
                     right: 0,
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(() => const ProfileScreen());
+                        Get.to(() => ProfileScreen());
                       },
                       child: Container(
                         width: 35,
                         height: 35,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          color: Colors.yellow,
+                          color: tPrimaryColor,
                         ),
                         child: const Icon(LineAwesomeIcons.camera,
-                            color: Colors.black, size: 20),
+                            color: Colors.white, size: 20),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 20),
 
               // -- Form Fields
               Form(
@@ -230,11 +235,11 @@ class UpdateProfileScreen extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () => userController.updateUser(),
                         style: ElevatedButton.styleFrom(
-                            // backgroundColor: tPrimaryColor,
+                            backgroundColor: tButtonColor,
                             side: BorderSide.none,
                             shape: const StadiumBorder()),
                         child: const Text(tEditProfile,
-                            style: TextStyle(color: Colors.black)),
+                            style: TextStyle(color: Colors.white)),
                       ),
                     ),
                     const SizedBox(height: 10),

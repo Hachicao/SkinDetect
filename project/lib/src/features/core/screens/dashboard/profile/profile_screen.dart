@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
+import 'package:project/src/features/core/controllers/user_controller.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_menu_screen.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/update_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    UserController userController = Get.put(UserController());
+
+    final userModel = userController.getUserModel;
+    final userName = userModel?.userName.toString();
+    final userEmail = userModel?.userEmail.toString();
     return Scaffold(
+      backgroundColor: tbackgroundColor,
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Get.back(),
-            icon: const Icon(LineAwesomeIcons.angle_left)),
-        title: const Text(tProfile,
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: tAppbarColor,
+        title: const Text('Profile',
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -33,8 +43,12 @@ class ProfileScreen extends StatelessWidget {
                     width: 120,
                     height: 120,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: const Image(image: AssetImage(tSlashImage))),
+                      borderRadius: BorderRadius.circular(100),
+                      child: const Image(
+                        image: AssetImage(tSlashImage),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   Positioned(
                     bottom: 0,
@@ -44,10 +58,10 @@ class ProfileScreen extends StatelessWidget {
                       height: 35,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          color: Colors.yellow),
+                          color: tPrimaryColor),
                       child: const Icon(
                         LineAwesomeIcons.alternate_pencil,
-                        color: Colors.black,
+                        color: Colors.white,
                         size: 20,
                       ),
                     ),
@@ -55,11 +69,12 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const Text(tProfileHeading,
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-              const Text(tProfileSubHeading,
-                  style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.normal)),
+              Text("Hey $userName",
+                  style: const TextStyle(
+                      fontSize: 35, fontWeight: FontWeight.bold)),
+              Text("$userEmail",
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.normal)),
               const SizedBox(height: 20),
 
               /// -- BUTTON
@@ -67,10 +82,10 @@ class ProfileScreen extends StatelessWidget {
                 width: 200,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => UpdateProfileScreen());
+                    Get.to(() => const UpdateProfileScreen());
                   },
                   style: ElevatedButton.styleFrom(
-                      // backgroundColor: tPrimaryColor,
+                      backgroundColor: tButtonColor,
                       side: BorderSide.none,
                       shape: const StadiumBorder()),
                   child: const Text(tEditProfile,

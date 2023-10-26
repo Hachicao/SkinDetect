@@ -34,6 +34,9 @@ dependencies:
   percent_indicator: ^4.2.3
   persistent_bottom_nav_bar: ^5.0.2
   fan_floating_menu: ^0.0.1
+  carousel_slider: ^4.2.1
+  flutter_slidable: ^3.0.0
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
-import 'package:project/src/features/core/screens/detect/skin_detect_screen.dart';
+import 'package:project/src/features/core/screens/detect/before_skin_detect_screen.dart';
 import 'package:project/src/features/core/screens/history/history_screen.dart';
 import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
 
@@ -25,9 +25,9 @@ class _DashboardBottomNavigationBarState
     const Dashboard(),
     // Container(color: Colors.red),
     Container(color: Colors.grey[50]),
-    const SkinDetectScreen(),
-    HistoryScreen(),
-    const ProfileScreen(),
+    BeforeSkinDetectScreen(),
+    const HistoryScreen(),
+    ProfileScreen(),
   ];
 
   final List<PersistentBottomNavBarItem> items = [
@@ -40,10 +40,10 @@ class _DashboardBottomNavigationBarState
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(
-        Icons.search,
+        Icons.chat,
       ),
-      title: ("Search"),
-      inactiveIcon: const Icon(Icons.search, color: tIcon),
+      title: ("Chat"),
+      inactiveIcon: const Icon(LineAwesomeIcons.hacker_news, color: tIcon),
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(
@@ -51,6 +51,7 @@ class _DashboardBottomNavigationBarState
         color: Colors.white,
       ),
       title: ("Detect"),
+      activeColorPrimary: Colors.blue,
       inactiveIcon: const Icon(Icons.camera_alt_outlined, color: tIcon),
     ),
     PersistentBottomNavBarItem(
@@ -76,11 +77,26 @@ class _DashboardBottomNavigationBarState
       // controller: controler,
       screens: screens,
       items: items,
-      backgroundColor: Colors.blueGrey.shade100,
+      // confineInSafeArea: true,
+      navBarHeight: 60,
+      // backgroundColor: Colors.blueGrey.shade100,
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(0),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
         colorBehindNavBar: Colors.white,
+        border: Border.all(color: Colors.grey.shade500, width: 1),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 1,
+            spreadRadius: 1,
+            offset: Offset(0, 1),
+          ),
+        ],
       ),
+
       navBarStyle: NavBarStyle.style15,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,

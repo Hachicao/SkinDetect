@@ -45,6 +45,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   Icons.email_outlined,
                   color: Colors.black,
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                floatingLabelStyle: TextStyle(color: Colors.blue),
                 labelText: tEmail,
                 hintText: tEmail,
                 border: OutlineInputBorder(
@@ -64,6 +69,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   Icons.fingerprint_rounded,
                   color: Colors.black,
                 ),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                floatingLabelStyle: const TextStyle(color: Colors.blue),
                 labelText: tPassword,
                 hintText: tPassword,
                 border: const OutlineInputBorder(
@@ -86,7 +96,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 onPressed: () {
                   ForgetPasswordScreen.buildShowModalBottomSheet(context);
                 },
-                child: const Text(tForgetPassword),
+                child: const Text(tForgetPassword,
+                    style: TextStyle(color: Colors.blue)),
               ),
             ),
             SizedBox(
@@ -102,11 +113,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   print('pass => ${passwordController.text}');
                 },
                 style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
-                child: Text(tLogin.toUpperCase()),
+                child: Text(tLogin.toUpperCase(),
+                    style: const TextStyle(color: Colors.white)),
               ),
             ),
           ],

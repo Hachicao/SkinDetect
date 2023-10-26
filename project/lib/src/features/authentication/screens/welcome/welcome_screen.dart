@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
@@ -14,6 +15,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: tbackgroundColor,
       body: Container(
         padding: const EdgeInsets.all(tDefaultSize),
         child: Column(
@@ -64,20 +66,22 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: () => Get.to(() => const SignUpScreen()),
-                      style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: tButtonHeight)),
-                      child: Text(
-                        tSignup.toUpperCase(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
-                      )),
+                    onPressed: () => Get.to(() => const SignUpScreen()),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: tButtonColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      padding:
+                          const EdgeInsets.symmetric(vertical: tButtonHeight),
+                    ),
+                    child: Text(
+                      tSignup.toUpperCase(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white),
+                    ),
+                  ),
                 ),
               ],
             )

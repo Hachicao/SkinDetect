@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/appbar.dart';
@@ -18,7 +19,7 @@ class Dashboard extends StatelessWidget {
     final userModel = userController.getUserModel;
     final userName = userModel?.userName.toString();
     return Scaffold(
-      // backgroundColor: const Color(0xFF02A9FF).withOpacity(0.2),
+      backgroundColor: tbackgroundColor,
       appBar: const DashboardAppBar(),
       body: SingleChildScrollView(
         child: Container(

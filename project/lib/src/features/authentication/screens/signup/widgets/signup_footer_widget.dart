@@ -28,7 +28,9 @@ class SignUpFooterWidget extends StatelessWidget {
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: () {},
-            label: Text(tSignInWithGoogle.toUpperCase()),
+            label: Text(tSignInWithGoogle.toUpperCase(),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.black)),
             style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15))),

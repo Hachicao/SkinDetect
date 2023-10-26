@@ -1,14 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
 import 'package:project/src/features/core/screens/detail/detail_screen.dart';
-import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
 
 class SkinDetectScreen extends StatelessWidget {
   const SkinDetectScreen({Key? key}) : super(key: key);
@@ -19,18 +17,13 @@ class SkinDetectScreen extends StatelessWidget {
     final SkinDetectController imageController =
         Get.put(SkinDetectController());
     final skinDetectController = Get.find<SkinDetectController>();
+
     return Scaffold(
+      backgroundColor: tbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[100],
+        backgroundColor: Colors.blue[50],
         elevation: 0,
-        leading: IconButton(
-            onPressed: () => const Dashboard(),
-            icon: const Icon(LineAwesomeIcons.arrow_circle_left,
-                color: Colors.blue),
-            iconSize: 30,
-            selectedIcon: const Icon(LineAwesomeIcons.arrow_circle_right,
-                color: Colors.black)),
-        title: const Text('Detail',
+        title: const Text('Result',
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -44,12 +37,8 @@ class SkinDetectScreen extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  color: Colors.grey[50],
+                decoration: const BoxDecoration(
+                  color: tbackgroundColor,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -86,9 +75,11 @@ class SkinDetectScreen extends StatelessWidget {
                           );
                         }),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await imageController.saveData();
+                          },
                           icon: const Icon(
-                            LineAwesomeIcons.download,
+                            Icons.share,
                             color: Colors.blue,
                           ),
                         )
@@ -97,17 +88,21 @@ class SkinDetectScreen extends StatelessWidget {
                     // const SizedBox(
                     //   height: 5,
                     // ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: SizedBox(
-                        height: 300,
-                        child: Obx(
-                          () => imageController.selectedImagePath.value == ''
-                              ? const Image(image: AssetImage(tTestIamge))
-                              : Image.file(
-                                  File(imageController.selectedImagePath.value),
-                                  fit: BoxFit.cover,
-                                ),
+                    Hero(
+                      tag: 'imagedetect', // Use the same tag
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: SizedBox(
+                          height: 300,
+                          child: Obx(
+                            () => imageController.selectedImagePath.value == ''
+                                ? const Image(image: AssetImage(tFolder))
+                                : Image.file(
+                                    File(imageController
+                                        .selectedImagePath.value),
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
                         ),
                       ),
                     ),
@@ -138,8 +133,7 @@ class SkinDetectScreen extends StatelessWidget {
                                   Text(
                                     "Threat level",
                                     style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black.withOpacity(0.8)),
+                                        fontSize: 15, color: Colors.white),
                                   ),
                                   const SizedBox(width: 20),
                                   Obx(
@@ -148,7 +142,7 @@ class SkinDetectScreen extends StatelessWidget {
                                           'Low',
                                       style: const TextStyle(
                                           fontSize: 20,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -157,12 +151,15 @@ class SkinDetectScreen extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                "Additional examination is not required",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black.withOpacity(0.8),
-                                    overflow: TextOverflow.ellipsis),
+                              Obx(
+                                () => Text(
+                                  imageController.textValue.value?.data ??
+                                      'Additional examination is not required',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white.withOpacity(0.8),
+                                      overflow: TextOverflow.ellipsis),
+                                ),
                               ),
                             ],
                           ),
@@ -222,8 +219,11 @@ class SkinDetectScreen extends StatelessWidget {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    await skinDetectController.fetchDetail();
-                                    Get.to(() => const SkinDetailScreen());
+                                    await skinDetectController.fetchDetail(
+                                        imageController.result.value!.id);
+
+                                    Get.to(() => const SkinDetailScreen(),
+                                        transition: Transition.fadeIn);
                                   },
                                   icon: const Icon(LineAwesomeIcons.angle_right,
                                       color: Color.fromARGB(255, 12, 99, 170)),
@@ -235,27 +235,24 @@ class SkinDetectScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     SizedBox(
-                      width: 200,
                       height: 50,
+                      width: 300,
                       child: ElevatedButton(
                         onPressed: () {
-                          imageController.uploadImage();
+                          imageController.showImageSourceDialog();
                         },
                         style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        child: const Text(
-                          "Detect",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
+                        child: const Text('New Check',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ),
                   ],
@@ -265,53 +262,6 @@ class SkinDetectScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          showPopUpMenu(context);
-        },
-        child: const Icon(Icons.add_a_photo_rounded),
-      ),
     );
   }
-}
-
-void showPopUpMenu(BuildContext context) {
-  final imageController = Get.find<SkinDetectController>();
-  showMenu(
-    context: context,
-    position: RelativeRect.fromLTRB(MediaQuery.of(context).size.width - 150,
-        MediaQuery.of(context).size.height - 200, 0, 0),
-    items: [
-      PopupMenuItem(
-        child: InkWell(
-          onTap: () {
-            imageController.getImage(ImageSource.camera);
-            Navigator.pop(context);
-          },
-          child: const Row(
-            children: [
-              Icon(Icons.camera_alt),
-              SizedBox(width: 10),
-              Text('Camera'),
-            ],
-          ),
-        ),
-      ),
-      PopupMenuItem(
-        child: InkWell(
-          onTap: () {
-            imageController.getImage(ImageSource.gallery);
-            Navigator.pop(context);
-          },
-          child: const Row(
-            children: [
-              Icon(Icons.image),
-              SizedBox(width: 10),
-              Text('Gallery'),
-            ],
-          ),
-        ),
-      ),
-    ],
-  );
 }

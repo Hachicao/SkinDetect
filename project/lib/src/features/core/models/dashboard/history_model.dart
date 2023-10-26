@@ -1,42 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:project/src/constants/image_string.dart';
 
 class HistoryModel {
-  String id;
-  String user_id;
-  String name;
-  String dateTime;
-  String image;
+  String detectId;
+  String userId;
+  String detectName;
+  String detectDate;
+  String detectPhoto;
+  double detectScore;
+  String diseaseId;
   VoidCallback? onPress;
 
   HistoryModel({
-    required this.id,
-    required this.user_id,
-    required this.name,
-    required this.dateTime,
-    required this.image,
+    required this.detectId,
+    required this.userId,
+    required this.detectName,
+    required this.detectDate,
+    required this.detectPhoto,
+    required this.detectScore,
+    required this.diseaseId,
   });
   factory HistoryModel.fromJson(Map<String, dynamic> json) {
     return HistoryModel(
-      id: json['user_id'].toString(),
-      user_id: json['user_id'].toString(),
-      name: json['detect_result'],
-      dateTime: json['detect_date'],
-      image: json['detect_photo'],
+      detectId: json['detect_id'].toString(),
+      userId: json['user_id'].toString(),
+      detectName: json['detect_result'],
+      detectDate: json['detect_date'],
+      detectPhoto: json['detect_photo'],
+      detectScore: json['detect_score'].toDouble(),
+      diseaseId: json['disease_id'].toString(),
     );
   }
-  // static List<HistoryModel> list = [
-  //   HistoryModel(
-  //       id: '1004',
-  //       user_id: '1004',
-  //       name: 'Melenomac back',
-  //       dateTime: '10/02/2023 13:32:23',
-  //       image: tTestIamge),
-  //   HistoryModel(
-  //       id: '1005',
-  //       user_id: '1005',
-  //       name: 'Test',
-  //       dateTime: 'dateTime',
-  //       image: tLogo),
-  // ];
 }

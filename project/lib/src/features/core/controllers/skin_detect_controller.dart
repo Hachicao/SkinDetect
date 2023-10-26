@@ -10,13 +10,18 @@ import 'package:project/src/features/authentication/models/user_model.dart';
 import 'package:project/src/features/core/models/dashboard/disease_model.dart';
 import 'package:project/src/features/core/models/dashboard/history_model.dart';
 import 'package:project/src/features/core/models/dashboard/result.dart';
+import 'package:project/src/features/core/screens/detect/skin_detect_screen.dart';
 
 class SkinDetectController extends GetxController {
   var selectedImagePath = ''.obs;
   var selectedImageSize = ''.obs;
   final getImageURL = APIConstants.getImageUrl;
   final historyURL = APIConstants.getHistoryUrl;
+  final historyByDateAscURL = APIConstants.getHistoryByDateAsc;
+  final historyByScoreURL = APIConstants.getHistoryByScore;
   final detailURL = APIConstants.getDetailUrl;
+  final saveImagelURL = APIConstants.getSaveDataUrl;
+  final deleteImagelURL = APIConstants.deleteImageUrl;
   Rx<Result?> result = Rx<Result?>(null);
   User? userModel;
   HistoryModel? hitoryModel;
@@ -26,6 +31,8 @@ class SkinDetectController extends GetxController {
 
   Rx<Color?> sectionColor = Colors.white.obs;
   Rx<Text?> textLevel = const Text('Low').obs;
+  Rx<Text?> textValue =
+      const Text('Additional examination is not required').obs;
   // Rx<Color?> subCircle = Colors.green[500].obs;
   // list of history
   final historyList = RxList<HistoryModel>([]);
@@ -47,6 +54,19 @@ class SkinDetectController extends GetxController {
 
     if (pickedFile != null) {
       selectedImagePath.value = pickedFile.path;
+
+      if (imageSource == ImageSource.camera) {
+        await uploadImage();
+        double? apiScore = result.value?.score;
+        calculateScoreAndSetSectionColor(apiScore);
+        Get.to(() => const SkinDetectScreen());
+      }
+      if (imageSource == ImageSource.gallery) {
+        await uploadImage();
+        double? apiScore = result.value?.score;
+        calculateScoreAndSetSectionColor(apiScore);
+        Get.to(() => const SkinDetectScreen());
+      }
     } else {
       Get.snackbar("Error", "No image selected",
           snackPosition: SnackPosition.BOTTOM,
@@ -102,8 +122,10 @@ class SkinDetectController extends GetxController {
         print('date: ${result.value!.date}');
         print('time: ${result.value!.time}');
         print('id: ${result.value!.id}');
+        print('imagePath: ${result.value!.imagePath}');
+        print('txtPath: ${result.value!.txtPath}');
 
-        calculateScoreAndSetSectionColor();
+        // calculateScoreAndSetSectionColor();
         // calculateScoreAndSetCardColorSubCircle();
         // load the history after successful upload
         // create a new history item from the api response
@@ -124,25 +146,38 @@ class SkinDetectController extends GetxController {
     }
   }
 
-  // Result? getResult() {
-  //   return result.value;
-  // }
+  Result? getResultModel() => result.value;
 
-  void calculateScoreAndSetSectionColor() {
-    double? scoreApi = result.value?.score;
+  void calculateScoreAndSetSectionColor(double? scoreApi) {
     print("scoreApi: $scoreApi");
     if (scoreApi != null) {
       if (scoreApi < 0.49) {
         sectionColor.value = const Color.fromARGB(255, 50, 182, 54);
         textLevel.value = const Text('Low');
+        textValue.value = const Text('Additional examination is not required');
       } else if (scoreApi >= 0.5 && scoreApi < 0.79) {
         sectionColor.value = const Color.fromARGB(255, 234, 167, 52);
         textLevel.value = const Text('Medium');
+        textValue.value = const Text('Recommended  additional examination');
       } else {
         sectionColor.value = const Color.fromARGB(255, 243, 91, 77);
         textLevel.value = const Text('High');
       }
     }
+  }
+
+  Color getColorBasedOnScore(double? score) {
+    print("score: $score");
+    if (score != null) {
+      if (score < 0.49) {
+        return const Color.fromARGB(255, 50, 182, 54); // Green
+      } else if (score >= 0.5 && score < 0.79) {
+        return const Color.fromARGB(255, 234, 167, 52); // Orange
+      } else {
+        return const Color.fromARGB(255, 243, 91, 77); // Red
+      }
+    }
+    return Colors.black; // Default color if score is null
   }
 
   // load list of history
@@ -173,6 +208,7 @@ class SkinDetectController extends GetxController {
           final List<HistoryModel> history = historyData.map((e) {
             return HistoryModel.fromJson(e);
           }).toList();
+
           historyList.assignAll(history);
         }
       }
@@ -186,9 +222,95 @@ class SkinDetectController extends GetxController {
     }
   }
 
-  Future<void> fetchDetail() async {
+  // load list of fetchHistoryByDateAsc
+  Future<void> fetchHistoryByDateAsc() async {
+    final userModel = userController.getUserModel;
+    final userId = userModel?.userId.toString();
+    final headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    final body = {
+      'user_id': userId,
+    };
+
+    try {
+      final response = await http.post(
+        historyByDateAscURL,
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> dataReceived = jsonDecode(response.body);
+        final String result = dataReceived['placement'];
+
+        final List<dynamic> historyData = jsonDecode(result);
+
+        if (historyData.isNotEmpty) {
+          final List<HistoryModel> history = historyData.map((e) {
+            return HistoryModel.fromJson(e);
+          }).toList();
+
+          historyList.assignAll(history);
+        }
+      }
+
+      // Handle other status codes or unexpected responses
+      throw Exception('Failed to fetch history');
+    } catch (e) {
+      // Handle exceptions, e.g., network errors
+      print('Error: $e');
+      throw Exception('An error occurred while fetching history');
+    }
+  }
+
+  // load list of fetchHistoryByScore
+  Future<void> fetchHistoryByScore() async {
+    final userModel = userController.getUserModel;
+    final userId = userModel?.userId.toString();
+    final headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    final body = {
+      'user_id': userId,
+    };
+
+    try {
+      final response = await http.post(
+        historyByScoreURL,
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> dataReceived = jsonDecode(response.body);
+        final String result = dataReceived['placement'];
+
+        final List<dynamic> historyData = jsonDecode(result);
+
+        if (historyData.isNotEmpty) {
+          final List<HistoryModel> history = historyData.map((e) {
+            return HistoryModel.fromJson(e);
+          }).toList();
+
+          historyList.assignAll(history);
+        }
+      }
+
+      // Handle other status codes or unexpected responses
+      throw Exception('Failed to fetch history');
+    } catch (e) {
+      // Handle exceptions, e.g., network errors
+      print('Error: $e');
+      throw Exception('An error occurred while fetching history');
+    }
+  }
+
+  Future<void> fetchDetail(String imageId) async {
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    final body = {'diseasedId': '1'};
+
+    // final imageId = '20';
+    final body = {'diseasedId': imageId};
 
     try {
       final response = await http.post(detailURL, headers: headers, body: body);
@@ -208,5 +330,91 @@ class SkinDetectController extends GetxController {
       print('Error: $e');
       throw Exception('An error occurred while fetching detail');
     }
+  }
+
+  Future<void> saveData() async {
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    final diseasedId = diseaseModel?.diseaseId.toString();
+    final userModel = userController.getUserModel;
+    final userId = userModel?.userId.toString();
+    final imagePath = result.value?.imagePath.toString();
+    final txtPath = result.value?.txtPath.toString();
+    double? scoreApi = result.value?.score;
+    final body = {
+      'disease_id': diseasedId,
+      'user_id': userId,
+      'image_path': imagePath,
+      'txt_path': txtPath,
+      'score': scoreApi.toString(),
+    };
+    final response =
+        await http.post(saveImagelURL, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final dataReceived = jsonDecode(response.body);
+      final result = dataReceived['placement'];
+      if (result == 0) {
+        Get.snackbar("Successfully", "Save Successfully",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green,
+            colorText: Colors.white);
+      } else {
+        Get.snackbar("Error", "Save Failed",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      }
+    }
+  }
+
+  Future<void> deleteImageById(String detectId) async {
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    final userModel = userController.getUserModel;
+    final userId = userModel?.userId.toString();
+    final body = {'detect_id': detectId, 'user_id': userId};
+    final response =
+        await http.post(deleteImagelURL, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final dataReceived = jsonDecode(response.body);
+      final result = dataReceived['placement'];
+      if (result == 0) {
+        Get.snackbar("Successfully", "Detele Successfully",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green,
+            colorText: Colors.white);
+      } else {
+        Get.snackbar("Error", "Delete Failed",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      }
+    }
+  }
+
+  void showImageSourceDialog() {
+    Get.defaultDialog(
+      backgroundColor: Colors.white,
+      title: 'Choose action ...',
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text('Take a photo'),
+            onTap: () {
+              Get.back();
+              getImage(ImageSource.camera);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library),
+            title: const Text('Choose from gallery'),
+            onTap: () {
+              Get.back();
+              getImage(ImageSource.gallery);
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

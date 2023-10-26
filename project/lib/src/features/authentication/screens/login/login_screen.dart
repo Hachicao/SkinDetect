@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/features/authentication/screens/login/widgets/login_footer_widget.dart';
 import 'package:project/src/features/authentication/screens/login/widgets/login_form_widget.dart';
@@ -11,6 +12,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: tbackgroundColor,
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(tDefaultSize),

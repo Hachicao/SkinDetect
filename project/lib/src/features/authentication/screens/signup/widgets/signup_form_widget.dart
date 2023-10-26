@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/controllers/user_controller.dart';
 
@@ -46,6 +47,11 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                     Icons.email_outlined,
                     color: Colors.black,
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                  floatingLabelStyle: TextStyle(color: Colors.blue),
                   labelText: tEmail,
                   hintText: tEmail,
                   border: OutlineInputBorder(
@@ -60,15 +66,20 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               TextFormField(
                 controller: fullNameController,
                 decoration: const InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
                   prefixIcon: Icon(
                     Icons.person_2_outlined,
                     color: Colors.black,
                   ),
                   labelText: tFullName,
                   hintText: tFullName,
+                  floatingLabelStyle: TextStyle(color: Colors.blue),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                 ),
               ),
@@ -79,13 +90,18 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 controller: passwordController,
                 obscureText: !isPasswordVisible,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.fingerprint_rounded,
                     color: Colors.black,
                   ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                  floatingLabelStyle: const TextStyle(color: Colors.blue),
                   labelText: tPassword,
                   hintText: tPassword,
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
                   suffixIcon: IconButton(
@@ -116,11 +132,14 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                     print('password => ${passwordController.text}');
                   },
                   style: OutlinedButton.styleFrom(
+                    backgroundColor: tButtonColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  child: Text(tSignup.toUpperCase()),
+                  child: Text(tSignup.toUpperCase(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
                 ),
               ),
             ],

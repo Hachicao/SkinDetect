@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/authentication/controllers/splash_screen_controller.dart';
@@ -15,7 +16,9 @@ class SplashScreen extends StatelessWidget {
     splashController.startAnimation();
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
     return Scaffold(
+      backgroundColor: tbackgroundColor,
       body: Stack(
         children: [
           Obx(

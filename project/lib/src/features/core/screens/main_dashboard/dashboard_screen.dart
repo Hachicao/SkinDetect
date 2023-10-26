@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/appbar.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/navigation_bar.dart';
 import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
@@ -10,6 +11,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Scaffold(
+        backgroundColor: tbackgroundColor,
         appBar: DashboardAppBar(),
         body: Dashboard(),
         bottomNavigationBar: DashboardBottomNavigationBar(),

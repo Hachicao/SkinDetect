@@ -8,6 +8,9 @@ class Result {
   late String date;
   late String time;
   late String id;
+  late String imagePath;
+  late String txtPath;
+
   Result({
     required this.placement,
     required this.ymin,
@@ -18,6 +21,8 @@ class Result {
     required this.date, // Initialize date field
     required this.time,
     required this.id,
+    required this.imagePath,
+    required this.txtPath,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) {
@@ -31,6 +36,8 @@ class Result {
       date: json['date'].toString(),
       time: json['time'].toString(),
       id: json['id'].toString(),
+      imagePath: json['image_path'].toString(),
+      txtPath: json['txt_path'].toString(),
     );
   }
 }

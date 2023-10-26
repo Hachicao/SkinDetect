@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
+import 'package:project/src/features/core/screens/main_dashboard/dashboard_screen.dart';
 
 class SkinDetailScreen extends StatelessWidget {
   const SkinDetailScreen({Key? key});
@@ -12,12 +15,14 @@ class SkinDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<SkinDetectController>();
+
     return Scaffold(
+      backgroundColor: tbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[100],
+        backgroundColor: tAppbarColor,
         elevation: 0,
         leading: IconButton(
-          onPressed: () => Get.back(),
+          onPressed: () => Get.to(() => const DashboardScreen()),
           icon: const Icon(LineAwesomeIcons.arrow_circle_left,
               color: Colors.blue),
           iconSize: 30,
@@ -32,6 +37,9 @@ class SkinDetailScreen extends StatelessWidget {
       body: GetBuilder<SkinDetectController>(
         init: controller,
         builder: (controller) {
+          double? scorePercentage = controller.result.value?.score ?? 0.0;
+          String formattedPercentage =
+              (scorePercentage * 100).toStringAsFixed(2);
           return Container(
             color: Colors.blueGrey[100],
             child: SingleChildScrollView(
@@ -40,10 +48,6 @@ class SkinDetailScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
                       color: Colors.grey[50],
                     ),
                     child: Column(
@@ -86,17 +90,21 @@ class SkinDetailScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            height: 200,
-                            child: Obx(
-                              () => controller.selectedImagePath.value == ''
-                                  ? const Image(image: AssetImage(tTestIamge))
-                                  : Image.file(
-                                      File(controller.selectedImagePath.value),
-                                      fit: BoxFit.cover,
-                                    ),
+                        Hero(
+                          tag: 'imagedetect', // Use the same tag
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: SizedBox(
+                              height: 200,
+                              child: Obx(
+                                () => controller.selectedImagePath.value == ''
+                                    ? const Image(image: AssetImage(tFolder))
+                                    : Image.file(
+                                        File(
+                                            controller.selectedImagePath.value),
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
                             ),
                           ),
                         ),
@@ -108,7 +116,8 @@ class SkinDetailScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: controller.sectionColor.value,
+                              // color: controller.sectionColor.value,
+                              color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
@@ -123,6 +132,8 @@ class SkinDetailScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Threat level",
@@ -142,6 +153,23 @@ class SkinDetailScreen extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                    ),
+                                    const SizedBox(width: 20),
+                                    CircularPercentIndicator(
+                                      radius: 30,
+                                      lineWidth: 10.0,
+                                      animation: true,
+                                      percent: scorePercentage,
+                                      center: Text(
+                                        '$formattedPercentage%', // Display the score as a percentage
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10.0),
+                                      ),
+                                      circularStrokeCap:
+                                          CircularStrokeCap.round,
+                                      progressColor:
+                                          controller.sectionColor.value,
                                     ),
                                   ],
                                 ),

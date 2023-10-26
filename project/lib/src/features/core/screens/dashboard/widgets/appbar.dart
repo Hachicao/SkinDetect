@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:project/src/constants/color.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -15,13 +16,14 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const Text(
         "Welcome",
         style: TextStyle(
-          fontSize: 20,
-          color: Color.fromARGB(255, 229, 215, 87),
+          fontSize: 30,
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
         ),
       ),
       elevation: 0,
       centerTitle: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: tAppbarColor,
       actions: [
         Container(
           margin: const EdgeInsets.only(right: 20, top: 7),
@@ -30,7 +32,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Color.fromRGBO(240, 237, 237, 0.722)),
           child: IconButton(
             onPressed: () {
-              Get.to(() => const ProfileScreen());
+              Get.to(() => ProfileScreen());
             },
             icon: const Icon(Icons.person_3_outlined),
             color: Colors.blue,

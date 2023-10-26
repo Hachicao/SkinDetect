@@ -239,7 +239,7 @@ class UserController extends GetxController {
             ),
           ),
           btnOkOnPress: () {
-            Get.to(() => const ProfileScreen());
+            Get.to(() => ProfileScreen());
           },
         ).show();
       } else {
