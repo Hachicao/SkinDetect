@@ -3,6 +3,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
+import 'package:project/src/features/core/screens/detail/list_detail_screen.dart';
 import 'package:project/src/features/core/screens/detect/before_skin_detect_screen.dart';
 import 'package:project/src/features/core/screens/history/history_screen.dart';
 import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
@@ -23,8 +24,7 @@ class _DashboardBottomNavigationBarState
 
   final List<Widget> screens = [
     const Dashboard(),
-    // Container(color: Colors.red),
-    Container(color: Colors.grey[50]),
+    ListDetailScreen(),
     BeforeSkinDetectScreen(),
     const HistoryScreen(),
     ProfileScreen(),

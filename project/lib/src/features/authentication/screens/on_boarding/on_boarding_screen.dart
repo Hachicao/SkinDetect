@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:project/src/features/authentication/controllers/on_boarding_controller.dart';
+import 'package:project/src/features/authentication/screens/login/login_screen.dart';
+import 'package:project/src/features/authentication/screens/welcome/welcome_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -45,7 +47,9 @@ class OnBoardingScreen extends StatelessWidget {
             top: 50,
             right: 30,
             child: TextButton(
-              onPressed: () => obController.Skip(),
+              onPressed: () {
+                Get.to(() => const WelcomeScreen());
+              },
               child: const Text(
                 "Skip",
                 style: TextStyle(color: Colors.black, fontSize: 20),
@@ -55,13 +59,14 @@ class OnBoardingScreen extends StatelessWidget {
           //animation
           Obx(
             () => Positioned(
-                bottom: 10,
-                child: AnimatedSmoothIndicator(
-                  activeIndex: obController.currentPage.value,
-                  count: 3,
-                  effect: const WormEffect(
-                      activeDotColor: Colors.black, dotHeight: 5.0),
-                )),
+              bottom: 10,
+              child: AnimatedSmoothIndicator(
+                activeIndex: obController.currentPage.value,
+                count: 3,
+                effect: const WormEffect(
+                    activeDotColor: Colors.black, dotHeight: 5.0),
+              ),
+            ),
           )
         ],
       ),

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,7 +7,9 @@ import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/authentication/models/model_on_boarding.dart';
+import 'package:project/src/features/authentication/screens/login/login_screen.dart';
 import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
+import 'package:project/src/features/core/controllers/user_controller.dart';
 
 class BeforeSkinDetectScreen extends StatelessWidget {
   BeforeSkinDetectScreen({Key? key}) : super(key: key);
@@ -38,7 +42,10 @@ class BeforeSkinDetectScreen extends StatelessWidget {
     // Initialize the SkinDetectController
     final SkinDetectController imageController =
         Get.put(SkinDetectController());
+    final UserController userController = Get.find<UserController>();
     final size = MediaQuery.of(context).size;
+    final userModel = userController.getUserModel;
+    final userId = userModel?.userId.toString();
     return Scaffold(
       backgroundColor: tbackgroundColor,
       appBar: AppBar(
@@ -141,7 +148,29 @@ class BeforeSkinDetectScreen extends StatelessWidget {
             width: 300,
             child: ElevatedButton(
               onPressed: () {
-                imageController.showImageSourceDialog();
+                if (userId != null) {
+                  imageController.showImageSourceDialog();
+                } else {
+                  if (imageController.count.value <= 3) {
+                    imageController.showImageSourceDialog();
+                    print(" count ${imageController.count.value}");
+                  } else {
+                    Get.defaultDialog(
+                      title:
+                          'You have completed the full body skin self-exam of Guest!',
+                      middleText:
+                          'Sign in or Register if you want to have more experience!',
+                      textConfirm: 'OK',
+                      textCancel: 'Cancel',
+                      onConfirm: () {
+                        Get.to(() => const LoginScreen());
+                      },
+                      onCancel: () {
+                        Get.back();
+                      },
+                    );
+                  }
+                }
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: Colors.blue,

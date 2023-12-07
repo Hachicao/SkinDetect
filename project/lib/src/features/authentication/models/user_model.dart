@@ -31,7 +31,7 @@ class User {
       userStatus: json['user_status'].toString(),
       userEmail: json['user_email'].toString(),
       userPassword: json['user_password'].toString(),
-      userAvatar: json['user_avatar'].toString(),
+      userAvatar: json['user_avatar'],
     );
   }
 

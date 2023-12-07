@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:liquid_swipe/PageHelpers/LiquidController.dart';
 import 'package:project/src/features/authentication/screens/welcome/welcome_screen.dart';
+import 'package:project/src/features/core/screens/detect/before_skin_detect_screen.dart';
 import '../../../constants/color.dart';
 import '../../../constants/image_string.dart';
 import '../../../constants/text_string.dart';
@@ -46,6 +47,6 @@ class OnBoardingController extends GetxController {
   Future animateToNextSlide() async {
     // int nextPage = controller.currentPage + 1;
     // controller.jumpToPage(page: nextPage);
-    Get.offAll(() => const WelcomeScreen());
+    Get.offAll(() => BeforeSkinDetectScreen());
   }
 }

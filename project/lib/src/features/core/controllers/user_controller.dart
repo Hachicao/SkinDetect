@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:project/src/common_widgets/api_constanst/api_constanst.dart';
 import 'package:project/src/features/authentication/models/user_model.dart';
 import 'package:project/src/features/authentication/screens/login/login_screen.dart';
@@ -26,6 +28,29 @@ class UserController extends GetxController {
   static final _loginUrl = APIConstants.loginUrl;
   static final _registerUrl = APIConstants.registerUrl;
   static final _updateUrl = APIConstants.updateUrl;
+  var selectedImagePath = ''.obs;
+
+  void getImage(ImageSource imageSource) async {
+    final XFile? pickedFile =
+        await ImagePicker().pickImage(source: imageSource);
+
+    if (pickedFile != null) {
+      selectedImagePath.value = pickedFile.path;
+
+      if (imageSource == ImageSource.camera) {
+        print("camera");
+      }
+      if (imageSource == ImageSource.gallery) {
+        print("gallery");
+      }
+    } else {
+      Get.snackbar("Error", "No image selected",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    }
+  }
+
 // Custom date parsing function to handle the specific format
   DateTime parseDateString(String dateString) {
     try {
@@ -36,7 +61,9 @@ class UserController extends GetxController {
       return DateTime.now(); // You can set a default date here if parsing fails
     }
   }
+  //login by guest without login
 
+  //login user
   Future<void> loginUser(String email, String password) async {
     final headers = {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -64,8 +91,14 @@ class UserController extends GetxController {
           addressController.text = userModel!.userAddress ?? '';
           userIdController.text = userModel!.userId.toString();
           print('userModel: $userModel');
-          print('userModel: ${userModel!.userEmail}');
-          print('userModel: ${userModel!.userPassword}');
+          print('email: ${userModel!.userEmail}');
+          print('passs: ${userModel!.userPassword}');
+          print('address: ${userModel!.userAddress}');
+          print('phone: ${userModel!.userPhone}');
+          print('dob: ${userModel!.userDob}');
+          print('id: ${userModel!.userId}');
+          print('name: ${userModel!.userName}');
+          print('avata: ${userModel!.userAvatar}');
 
           AwesomeDialog(
             context: Get.context!,
@@ -208,6 +241,16 @@ class UserController extends GetxController {
 
   Future<void> updateUser() async {
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    final file = File(selectedImagePath.value);
+    if (!file.existsSync()) {
+      Get.snackbar("Error", "Image not found",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+      return;
+    }
+    final bytes = await file.readAsBytes();
+    final base64Image = base64Encode(bytes);
     final body = {
       'email': emailController.text,
       'user_name': nameController.text,
@@ -215,8 +258,8 @@ class UserController extends GetxController {
       'user_address': addressController.text,
       'user_phone': phoneController.text,
       'user_dob': birthdayController.text,
-      // 'user_id': await getUserId() ?? ''
-      'user_id': userIdController.text
+      'user_id': userIdController.text,
+      'user_avatar': base64Image,
     };
     final response = await http.post(_updateUrl, headers: headers, body: body);
     if (response.statusCode == 200) {
@@ -281,5 +324,33 @@ class UserController extends GetxController {
         btnCancelOnPress: () {},
       ).show();
     }
+  }
+
+  void showImageSourceDialog() {
+    Get.defaultDialog(
+      backgroundColor: Colors.white,
+      title: 'Choose action ...',
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text('Take a photo'),
+            onTap: () {
+              Get.back();
+              getImage(ImageSource.camera);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library),
+            title: const Text('Choose from gallery'),
+            onTap: () {
+              Get.back();
+              getImage(ImageSource.gallery);
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

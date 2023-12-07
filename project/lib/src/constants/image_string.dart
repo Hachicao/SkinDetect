@@ -24,3 +24,4 @@ const String tBanner2 = "images/img28.png";
 const String tSkincancer1 = "images/img41.png";
 const String tTestIamge = "images/testimge.png";
 const String tFolder = "images/folder.png";
+const String tProfileLogo = "images/profile.png";

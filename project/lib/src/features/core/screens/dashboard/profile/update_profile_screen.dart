@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -6,7 +9,6 @@ import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
-import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
 import '../../../controllers/user_controller.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
@@ -15,6 +17,23 @@ class UpdateProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserController userController = Get.put(UserController());
+    final userModel = userController.getUserModel;
+    Image userAvatarImage;
+    if (userModel!.userAvatar != null) {
+      final base64Avatar = userModel.userAvatar;
+      try {
+        final decodedAvatar = base64.decode(base64Avatar!);
+        userAvatarImage = Image.memory(decodedAvatar, fit: BoxFit.cover);
+      } catch (e) {
+        print('Error decoding userAvatar: $e');
+        userAvatarImage =
+            Image.asset(tProfileLogo); // Replace with a default image
+      }
+    } else {
+      // Handle the case where userAvatar is null
+      userAvatarImage =
+          Image.asset(tProfileLogo); // Replace with a default image
+    }
     return Scaffold(
       backgroundColor: tbackgroundColor,
       appBar: AppBar(
@@ -38,16 +57,32 @@ class UpdateProfileScreen extends StatelessWidget {
                   SizedBox(
                     width: 120,
                     height: 120,
-                    child: ClipRRect(
+                    child: Container(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        child: const Image(image: AssetImage(tSlashImage))),
+                        border: Border.all(
+                            color: Colors.black.withOpacity(0.1), width: 1),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Obx(
+                          () => userController.selectedImagePath.value == ''
+                              ? userAvatarImage
+                              : Image.file(
+                                  File(userController.selectedImagePath.value),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ),
+                    ),
                   ),
                   Positioned(
                     bottom: 0,
                     right: 0,
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(() => ProfileScreen());
+                        // -- Show Image Source Dialog
+                        userController.showImageSourceDialog();
                       },
                       child: Container(
                         width: 35,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,10 @@ class SkinDetectController extends GetxController {
   final historyByDateAscURL = APIConstants.getHistoryByDateAsc;
   final historyByScoreURL = APIConstants.getHistoryByScore;
   final detailURL = APIConstants.getDetailUrl;
+  final listDetaillURL = APIConstants.getListDetailUrl;
   final saveImagelURL = APIConstants.getSaveDataUrl;
   final deleteImagelURL = APIConstants.deleteImageUrl;
+
   Rx<Result?> result = Rx<Result?>(null);
   User? userModel;
   HistoryModel? hitoryModel;
@@ -35,17 +38,23 @@ class SkinDetectController extends GetxController {
       const Text('Additional examination is not required').obs;
   // Rx<Color?> subCircle = Colors.green[500].obs;
   // list of history
+  var count = 0.obs;
   final historyList = RxList<HistoryModel>([]);
   Rx<User?> currentUser = Rx<User?>(null); // Updated currentUser
-
+  final detailList = RxList<DiseaseModel>([]);
   TextEditingController nameController = TextEditingController();
   TextEditingController overViewController = TextEditingController();
   TextEditingController symptomController = TextEditingController();
   TextEditingController causesController = TextEditingController();
   TextEditingController preventionController = TextEditingController();
-
+  int detectCount = 0;
+  bool isAuthenticated = false;
   void updateUser(User? user) {
     currentUser.value = user;
+  }
+
+  void inceasedCount() {
+    count.value++;
   }
 
   void getImage(ImageSource imageSource) async {
@@ -60,12 +69,14 @@ class SkinDetectController extends GetxController {
         double? apiScore = result.value?.score;
         calculateScoreAndSetSectionColor(apiScore);
         Get.to(() => const SkinDetectScreen());
+        inceasedCount();
       }
       if (imageSource == ImageSource.gallery) {
         await uploadImage();
         double? apiScore = result.value?.score;
         calculateScoreAndSetSectionColor(apiScore);
         Get.to(() => const SkinDetectScreen());
+        inceasedCount();
       }
     } else {
       Get.snackbar("Error", "No image selected",
@@ -99,7 +110,7 @@ class SkinDetectController extends GetxController {
       final body = {
         'file': base64Image,
         'confidence_score': confidenceScore.toString(),
-        'user_id': userId,
+        'user_id': userId ?? 'null',
       };
       final headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -124,11 +135,6 @@ class SkinDetectController extends GetxController {
         print('id: ${result.value!.id}');
         print('imagePath: ${result.value!.imagePath}');
         print('txtPath: ${result.value!.txtPath}');
-
-        // calculateScoreAndSetSectionColor();
-        // calculateScoreAndSetCardColorSubCircle();
-        // load the history after successful upload
-        // create a new history item from the api response
         final newHistoryItem = HistoryModel.fromJson(jsonResponse);
         historyList.add(newHistoryItem);
 
@@ -180,6 +186,30 @@ class SkinDetectController extends GetxController {
     return Colors.black; // Default color if score is null
   }
 
+  // load list of  detail
+  Future<void> fetchListDetails() async {
+    final headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    try {
+      final response = await http.get(listDetaillURL, headers: headers);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> dataReceived = jsonDecode(response.body);
+        final String result = dataReceived['placement'];
+        final List<dynamic> detailData = jsonDecode(result);
+        if (detailData.isNotEmpty) {
+          final List<DiseaseModel> detail = detailData.map((e) {
+            return DiseaseModel.fromJson(e);
+          }).toList();
+          detailList.assignAll(detail);
+        }
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('An error occurred while fetching detail');
+    }
+  }
+
   // load list of history
   Future<void> fetchHistory() async {
     final userModel = userController.getUserModel;
@@ -212,7 +242,6 @@ class SkinDetectController extends GetxController {
           historyList.assignAll(history);
         }
       }
-
       // Handle other status codes or unexpected responses
       throw Exception('Failed to fetch history');
     } catch (e) {

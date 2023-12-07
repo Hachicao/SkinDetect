@@ -41,10 +41,10 @@ class Dashboard extends StatelessWidget {
               ),
 
               //search box
-              const DashboardSearchBox(),
-              const SizedBox(
-                height: 20,
-              ),
+              // const DashboardSearchBox(),
+              // const SizedBox(
+              //   height: 20,
+              // ),
 
               //categories
               const DashboardCategories(),

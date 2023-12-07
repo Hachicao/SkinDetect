@@ -5,8 +5,12 @@ import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
+import 'package:project/src/features/authentication/models/user_model.dart';
 import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
+import 'package:project/src/features/core/controllers/user_controller.dart';
 import 'package:project/src/features/core/screens/detail/detail_screen.dart';
+
+import '../../../authentication/screens/login/login_screen.dart';
 
 class SkinDetectScreen extends StatelessWidget {
   const SkinDetectScreen({Key? key}) : super(key: key);
@@ -17,7 +21,9 @@ class SkinDetectScreen extends StatelessWidget {
     final SkinDetectController imageController =
         Get.put(SkinDetectController());
     final skinDetectController = Get.find<SkinDetectController>();
-
+    final UserController userController = Get.find<UserController>();
+    final userModel = userController.getUserModel;
+    final userId = userModel?.userId.toString();
     return Scaffold(
       backgroundColor: tbackgroundColor,
       appBar: AppBar(
@@ -130,7 +136,7 @@ class SkinDetectScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Threat level",
                                     style: TextStyle(
                                         fontSize: 15, color: Colors.white),
@@ -221,9 +227,10 @@ class SkinDetectScreen extends StatelessWidget {
                                   onPressed: () async {
                                     await skinDetectController.fetchDetail(
                                         imageController.result.value!.id);
-
-                                    Get.to(() => const SkinDetailScreen(),
-                                        transition: Transition.fadeIn);
+                                    if (userId != null) {
+                                      Get.to(() => const SkinDetailScreen(),
+                                          transition: Transition.fadeIn);
+                                    }
                                   },
                                   icon: const Icon(LineAwesomeIcons.angle_right,
                                       color: Color.fromARGB(255, 12, 99, 170)),
@@ -242,7 +249,29 @@ class SkinDetectScreen extends StatelessWidget {
                       width: 300,
                       child: ElevatedButton(
                         onPressed: () {
-                          imageController.showImageSourceDialog();
+                          if (userId != null) {
+                            imageController.showImageSourceDialog();
+                          } else {
+                            if (imageController.count.value <= 3) {
+                              imageController.showImageSourceDialog();
+                              print(" count ${imageController.count.value}");
+                            } else {
+                              Get.defaultDialog(
+                                title:
+                                    'You have completed the full body skin self-exam of Guest!',
+                                middleText:
+                                    'Sign in or Register if you want to have more experience!',
+                                textConfirm: 'OK',
+                                textCancel: 'Cancel',
+                                onConfirm: () {
+                                  Get.to(() => const LoginScreen());
+                                },
+                                onCancel: () {
+                                  Get.back();
+                                },
+                              );
+                            }
+                          }
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.blue,
