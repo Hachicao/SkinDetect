@@ -31,7 +31,9 @@ class DashboardCategories extends StatelessWidget {
                       color: tCarBgColor1),
                   child: Center(
                       child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      list[index].onPress;
+                    },
                     icon: Image(image: AssetImage(list[index].imageTitle)),
                   )),
                 ),

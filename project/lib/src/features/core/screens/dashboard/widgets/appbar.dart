@@ -36,11 +36,11 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       leading: (const Icon(Icons.menu, color: Colors.blue)),
       title: const Text(
-        "Welcome",
+        "Home",
         style: TextStyle(
-          fontSize: 30,
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          color: Color.fromARGB(255, 55, 53, 53),
+          fontWeight: FontWeight.normal,
         ),
       ),
       elevation: 0,
@@ -52,12 +52,14 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(60),
               color: const Color.fromRGBO(240, 237, 237, 0.722)),
-          child: IconButton(
-            onPressed: () {
+          child: GestureDetector(
+            onTap: () {
               Get.to(() => ProfileScreen());
             },
-            icon: userAvatarImage,
-            color: Colors.blue,
+            child: CircleAvatar(
+              radius: 20,
+              backgroundImage: userAvatarImage.image,
+            ),
           ),
         )
       ],

@@ -54,7 +54,7 @@ class BeforeSkinDetectScreen extends StatelessWidget {
         title: const Text('Full check-up',
             style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
                 color: Colors.black)),
         centerTitle: true,
       ),

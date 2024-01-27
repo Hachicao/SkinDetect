@@ -43,10 +43,10 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: tAppbarColor,
-        title: const Text('Profile',
+        title: const Text('My profile',
             style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
                 color: Colors.black)),
         centerTitle: true,
       ),
@@ -62,22 +62,23 @@ class ProfileScreen extends StatelessWidget {
                     width: 120,
                     height: 120,
                     child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(
-                              color: Colors.black.withOpacity(0.1), width: 1),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: userAvatarImage,
-                        )),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(
+                            color: Colors.black.withOpacity(0.1), width: 1),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: userAvatarImage,
+                      ),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-              Text("Hey $userName",
+              Text("Hi $userName!",
                   style: const TextStyle(
-                      fontSize: 35, fontWeight: FontWeight.bold)),
+                      fontSize: 30, fontWeight: FontWeight.bold)),
               Text("$userEmail",
                   style: const TextStyle(
                       fontSize: 15, fontWeight: FontWeight.normal)),

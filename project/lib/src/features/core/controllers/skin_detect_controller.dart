@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +10,9 @@ import 'package:project/src/features/authentication/models/user_model.dart';
 import 'package:project/src/features/core/models/dashboard/disease_model.dart';
 import 'package:project/src/features/core/models/dashboard/history_model.dart';
 import 'package:project/src/features/core/models/dashboard/result.dart';
+import 'package:project/src/features/core/screens/calendar/utils.dart';
 import 'package:project/src/features/core/screens/detect/skin_detect_screen.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class SkinDetectController extends GetxController {
   var selectedImagePath = ''.obs;
@@ -133,11 +134,10 @@ class SkinDetectController extends GetxController {
         print('date: ${result.value!.date}');
         print('time: ${result.value!.time}');
         print('id: ${result.value!.id}');
-        print('imagePath: ${result.value!.imagePath}');
-        print('txtPath: ${result.value!.txtPath}');
+
         final newHistoryItem = HistoryModel.fromJson(jsonResponse);
         historyList.add(newHistoryItem);
-
+        skinDetectController.fetchHistory();
         Get.back();
       } else if (response.statusCode == 500) {
         final jsonResponse = jsonDecode(response.body);
@@ -346,13 +346,14 @@ class SkinDetectController extends GetxController {
       if (response.statusCode == 200) {
         final dataReceived = jsonDecode(response.body);
         final result = dataReceived['diseaseModel'];
-        print('result: $result');
+        // print('result: $result');
         diseaseModel = DiseaseModel.fromJson(result);
         nameController.text = diseaseModel!.diseaseName;
         overViewController.text = diseaseModel!.diseaseOverview;
         symptomController.text = diseaseModel!.diseaseSymptom;
         causesController.text = diseaseModel!.diseaseCause;
         preventionController.text = diseaseModel!.diseasePrevention;
+
         print(nameController.text);
       }
     } catch (e) {
@@ -445,5 +446,21 @@ class SkinDetectController extends GetxController {
         ],
       ),
     );
+  }
+
+  List<HistoryModel> getEventsForDay(DateTime day) {
+    final historyListEvent = historyList;
+    final count = historyListEvent.length;
+    print('count: $count');
+    final events = <HistoryModel>[];
+    for (int i = 0; i < count; i++) {
+      final historyItem = historyListEvent[i];
+      final date = DateTime.parse(historyItem.detectDate);
+
+      if (isSameDay(date, day)) {
+        events.add(historyItem);
+      }
+    }
+    return events;
   }
 }

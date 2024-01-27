@@ -30,7 +30,7 @@ class SkinDetailScreen extends StatelessWidget {
         title: const Text(
           'Detail',
           style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black),
         ),
         centerTitle: true,
       ),

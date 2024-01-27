@@ -235,32 +235,32 @@ class UpdateProfileScreen extends StatelessWidget {
                       future: null,
                     ),
 
-                    const SizedBox(height: 10),
-                    FutureBuilder<String?>(
-                      // future: userController.getUserPassword(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return TextFormField(
-                            // initialValue: snapshot.data ?? '',
-                            controller: userController.passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              label: const Text(tPassword),
-                              prefixIcon: const Icon(Icons.fingerprint),
-                              suffixIcon: IconButton(
-                                  icon: const Icon(LineAwesomeIcons.eye_slash),
-                                  onPressed: () {}),
-                            ),
-                          );
-                        }
-                      },
-                      future: null,
-                    ),
+                    // const SizedBox(height: 10),
+                    // FutureBuilder<String?>(
+                    //   // future: userController.getUserPassword(),
+                    //   builder: (context, snapshot) {
+                    //     if (snapshot.connectionState ==
+                    //         ConnectionState.waiting) {
+                    //       return const CircularProgressIndicator();
+                    //     } else if (snapshot.hasError) {
+                    //       return Text('Error: ${snapshot.error}');
+                    //     } else {
+                    //       return TextFormField(
+                    //         // initialValue: snapshot.data ?? '',
+                    //         controller: userController.passwordController,
+                    //         obscureText: true,
+                    //         decoration: InputDecoration(
+                    //           label: const Text(tPassword),
+                    //           prefixIcon: const Icon(Icons.fingerprint),
+                    //           suffixIcon: IconButton(
+                    //               icon: const Icon(LineAwesomeIcons.eye_slash),
+                    //               onPressed: () {}),
+                    //         ),
+                    //       );
+                    //     }
+                    //   },
+                    //   future: null,
+                    // ),
 
                     const SizedBox(height: 20),
 

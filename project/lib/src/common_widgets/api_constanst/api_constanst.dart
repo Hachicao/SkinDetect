@@ -1,5 +1,5 @@
 class APIConstants {
-  static const String baseUrl = "https://c645-103-17-88-39.ngrok-free.app";
+  static const String baseUrl = "https://5d59-103-17-88-39.ngrok-free.app";
   static final Uri loginUrl = Uri.parse('$baseUrl/loginMobile');
   static final Uri registerUrl = Uri.parse('$baseUrl/registerMobile');
   static final Uri updateUrl = Uri.parse('$baseUrl/updateMobile');

@@ -30,4 +30,8 @@ class HistoryModel {
       diseaseId: json['disease_id'].toString(),
     );
   }
+  @override
+  String toString() {
+    return detectName; // Customize this as needed
+  }
 }

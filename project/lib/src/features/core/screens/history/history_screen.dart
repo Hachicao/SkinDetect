@@ -25,8 +25,6 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final skinDetectController = Get.find<SkinDetectController>();
-  final SkinDetectController imageController = Get.put(SkinDetectController());
-  HistoryModel? historyModel;
   final items = DropdownModel.list;
   DropdownModel? selectedDropdownItem;
 
@@ -47,8 +45,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
         title: const Text(
           tHistory,
           style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
             color: Colors.black,
             fontStyle: FontStyle.normal,
           ),
@@ -308,6 +306,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           ),
                         ),
                       );
+                      //
                     },
                   ),
                 );

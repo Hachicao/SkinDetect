@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:project/src/features/authentication/controllers/on_boarding_controller.dart';
-import 'package:project/src/features/authentication/screens/login/login_screen.dart';
 import 'package:project/src/features/authentication/screens/welcome/welcome_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -31,10 +30,10 @@ class OnBoardingScreen extends StatelessWidget {
                 obController.animateToNextSlide();
               },
               style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
                   side: const BorderSide(color: Colors.black),
                   shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(20),
-                  onPrimary: Colors.white),
+                  padding: const EdgeInsets.all(20)),
               child: Container(
                 padding: const EdgeInsets.all(20),
                 decoration: const BoxDecoration(
@@ -48,7 +47,7 @@ class OnBoardingScreen extends StatelessWidget {
             right: 30,
             child: TextButton(
               onPressed: () {
-                Get.to(() => const WelcomeScreen());
+                Get.offAll(() => const WelcomeScreen());
               },
               child: const Text(
                 "Skip",
@@ -56,6 +55,7 @@ class OnBoardingScreen extends StatelessWidget {
               ),
             ),
           ),
+
           //animation
           Obx(
             () => Positioned(

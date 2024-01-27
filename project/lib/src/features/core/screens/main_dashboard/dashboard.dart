@@ -6,7 +6,6 @@ import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/appbar.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/banner.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/categories.dart';
-import 'package:project/src/features/core/screens/dashboard/widgets/search.dart';
 import 'package:project/src/features/core/screens/dashboard/widgets/top_skincancer.dart';
 import '../../controllers/user_controller.dart';
 
@@ -29,7 +28,7 @@ class Dashboard extends StatelessWidget {
             children: [
               //Heading
               Text(
-                "Hey $userName",
+                "Hello, $userName!",
                 style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -49,13 +48,19 @@ class Dashboard extends StatelessWidget {
               //categories
               const DashboardCategories(),
               const SizedBox(
-                height: 20,
+                height: 25,
               ),
-
+              const Text(
+                'SKIN CANCER CHECK-UP',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               //banner
               const DashboardBanners(),
               const SizedBox(
-                height: 20,
+                height: 25,
               ),
 
               const Text(
@@ -63,7 +68,7 @@ class Dashboard extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               //Top skin cancer
-              const DashboardTopSkincancer(),
+              DashboardTopSkincancer(key: UniqueKey()),
             ],
           ),
         ),

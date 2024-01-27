@@ -5,10 +5,7 @@ class DiseaseModel {
   String diseaseSymptom;
   String diseaseCause;
   String diseasePrevention;
-  String diseasePhoto1;
-  String diseasePhoto2;
-  String diseasePhoto3;
-  String diseasePhoto4;
+  List<String> imageURls;
 
   DiseaseModel({
     required this.diseaseId,
@@ -17,10 +14,7 @@ class DiseaseModel {
     required this.diseaseSymptom,
     required this.diseaseCause,
     required this.diseasePrevention,
-    required this.diseasePhoto1,
-    required this.diseasePhoto2,
-    required this.diseasePhoto3,
-    required this.diseasePhoto4,
+    required this.imageURls,
   });
   factory DiseaseModel.fromJson(Map<String, dynamic> json) {
     return DiseaseModel(
@@ -30,10 +24,18 @@ class DiseaseModel {
       diseaseSymptom: json['diseased_symptom'].toString(),
       diseaseCause: json['diseased_causes'].toString(),
       diseasePrevention: json['diseased_prevention'].toString(),
-      diseasePhoto1: json['disease_photo_1'].toString(),
-      diseasePhoto2: json['disease_photo_2'].toString(),
-      diseasePhoto3: json['disease_photo_3'].toString(),
-      diseasePhoto4: json['diseased_photo_4'].toString(),
+      imageURls: List<String>.from(json['diseased_image_folder']),
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'diseased_Id': diseaseId,
+      'diseased_name': diseaseName,
+      'diseased_overview': diseaseOverview,
+      'diseased_symptom': diseaseSymptom,
+      'diseased_causes': diseaseCause,
+      'diseased_prevention': diseasePrevention,
+      'imageURls': imageURls,
+    };
   }
 }

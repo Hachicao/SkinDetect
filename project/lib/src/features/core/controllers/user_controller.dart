@@ -90,15 +90,15 @@ class UserController extends GetxController {
           passwordController.text = userModel!.userPassword;
           addressController.text = userModel!.userAddress ?? '';
           userIdController.text = userModel!.userId.toString();
-          print('userModel: $userModel');
-          print('email: ${userModel!.userEmail}');
-          print('passs: ${userModel!.userPassword}');
-          print('address: ${userModel!.userAddress}');
-          print('phone: ${userModel!.userPhone}');
-          print('dob: ${userModel!.userDob}');
-          print('id: ${userModel!.userId}');
-          print('name: ${userModel!.userName}');
-          print('avata: ${userModel!.userAvatar}');
+          // print('userModel: $userModel');
+          // print('email: ${userModel!.userEmail}');
+          // print('passs: ${userModel!.userPassword}');
+          // print('address: ${userModel!.userAddress}');
+          // print('phone: ${userModel!.userPhone}');
+          // print('dob: ${userModel!.userDob}');
+          // print('id: ${userModel!.userId}');
+          // print('name: ${userModel!.userName}');
+          // print('avata: ${userModel!.userAvatar}');
 
           AwesomeDialog(
             context: Get.context!,
@@ -254,7 +254,7 @@ class UserController extends GetxController {
     final body = {
       'email': emailController.text,
       'user_name': nameController.text,
-      'password': passwordController.text,
+      // 'password': passwordController.text,
       'user_address': addressController.text,
       'user_phone': phoneController.text,
       'user_dob': birthdayController.text,

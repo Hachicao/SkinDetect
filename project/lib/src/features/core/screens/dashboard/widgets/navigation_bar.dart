@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:project/src/constants/color.dart';
+import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
 import 'package:project/src/features/core/screens/detail/list_detail_screen.dart';
 import 'package:project/src/features/core/screens/detect/before_skin_detect_screen.dart';
@@ -39,11 +40,9 @@ class _DashboardBottomNavigationBarState
       inactiveIcon: const Icon(Icons.home, color: tIcon),
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(
-        Icons.chat,
-      ),
-      title: ("Chat"),
-      inactiveIcon: const Icon(LineAwesomeIcons.hacker_news, color: tIcon),
+      icon: Image.asset(skinIconMenu),
+      title: ("Category"),
+      inactiveIcon: Image.asset(skinIconMenu, color: tIcon),
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +30,7 @@ class SkinDetailHistoryScreen extends StatelessWidget {
         title: const Text(
           'Detail History',
           style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black),
         ),
         centerTitle: true,
       ),
@@ -213,8 +212,8 @@ class SkinDetailHistoryScreen extends StatelessWidget {
                                       softWrap: true,
                                       maxLines: 4,
                                       text: TextSpan(
-                                        text:
-                                            controller.overViewController.text,
+                                        text: controller.overViewController.text
+                                            .replaceAll('*', '•'.padLeft(5)),
                                         style: const TextStyle(
                                           fontSize: 15,
                                           color: Colors.black,
@@ -251,7 +250,8 @@ class SkinDetailHistoryScreen extends StatelessWidget {
                                       softWrap: true,
                                       maxLines: 4,
                                       text: TextSpan(
-                                        text: controller.symptomController.text,
+                                        text: controller.symptomController.text
+                                            .replaceAll('*', '•'.padLeft(5)),
                                         style: const TextStyle(
                                           fontSize: 15,
                                           color: Colors.black,
@@ -288,7 +288,8 @@ class SkinDetailHistoryScreen extends StatelessWidget {
                                       softWrap: true,
                                       maxLines: 4,
                                       text: TextSpan(
-                                        text: controller.causesController.text,
+                                        text: controller.causesController.text
+                                            .replaceAll('*', '•'.padLeft(5)),
                                         style: const TextStyle(
                                           fontSize: 15,
                                           color: Colors.black,
@@ -326,7 +327,8 @@ class SkinDetailHistoryScreen extends StatelessWidget {
                                       maxLines: 4,
                                       text: TextSpan(
                                         text: controller
-                                            .preventionController.text,
+                                            .preventionController.text
+                                            .replaceAll('*', '•'.padLeft(5)),
                                         style: const TextStyle(
                                           fontSize: 15,
                                           color: Colors.black,

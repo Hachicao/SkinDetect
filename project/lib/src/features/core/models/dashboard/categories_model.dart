@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:project/src/constants/image_string.dart';
+import 'package:project/src/features/core/screens/calendar/calendar_screen.dart';
 
 class DashboardCategoriesModel {
   final String imageTitle;
@@ -11,10 +13,11 @@ class DashboardCategoriesModel {
       this.imageTitle, this.heading, this.subHeading, this.onPress);
 
   static List<DashboardCategoriesModel> list = [
-    DashboardCategoriesModel(tAlgorithsm, "Algorithm", "Choose", null),
-    DashboardCategoriesModel(
-        tSearchInfor, "Looking for some symptoms", "Choose", null),
-    DashboardCategoriesModel(tSearchInfor, "History", "Choose", null),
-    DashboardCategoriesModel(tSearchInfor, "History", "Choose", null),
+    DashboardCategoriesModel(tSearchInfor, "History", "Check", null),
+    DashboardCategoriesModel(tCalendar, "Calendar", "Check", () {
+      Get.to(() => const CalendarScreen());
+    }),
   ];
 }
+
+

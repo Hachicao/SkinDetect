@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/text_string.dart';
+import 'package:project/src/features/core/screens/detail/list_detail_screen.dart';
+import 'package:project/src/features/core/screens/detect/before_skin_detect_screen.dart';
 
 class DashboardBanners extends StatelessWidget {
   const DashboardBanners({
@@ -26,7 +29,7 @@ class DashboardBanners extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -35,10 +38,10 @@ class DashboardBanners extends StatelessWidget {
                         Flexible(child: Image(image: AssetImage(tBanner1))),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
-                    Text(
+                    const Text(
                       tDashboardBannerTitle1,
                       style: TextStyle(
                         fontSize: 20,
@@ -47,17 +50,22 @@ class DashboardBanners extends StatelessWidget {
                       ),
                       maxLines: 2,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      tDashboardBannerSubtitle,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                        overflow: TextOverflow.ellipsis,
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => BeforeSkinDetectScreen());
+                      },
+                      child: const Text(
+                        tDashboardBannerSubtitle,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 1,
                       ),
-                      maxLines: 1,
                     ),
                   ],
                 ),
@@ -81,7 +89,7 @@ class DashboardBanners extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -90,7 +98,7 @@ class DashboardBanners extends StatelessWidget {
                         Flexible(child: Image(image: AssetImage(tBanner2))),
                       ],
                     ),
-                    Text(
+                    const Text(
                       'More Information',
                       style: TextStyle(
                         fontSize: 20,
@@ -98,12 +106,17 @@ class DashboardBanners extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Text(
-                      tDashboardBannerSubtitle,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                        overflow: TextOverflow.ellipsis,
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => BeforeSkinDetectScreen());
+                      },
+                      child: const Text(
+                        tDashboardBannerSubtitle,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
                   ],
@@ -112,7 +125,9 @@ class DashboardBanners extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => ListDetailScreen());
+                  },
                   child: const Text("View All"),
                 ),
               ),
