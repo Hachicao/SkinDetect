@@ -1,5 +1,6 @@
 class APIConstants {
-  static const String baseUrl = "https://5d59-103-17-88-39.ngrok-free.app";
+  static const String baseUrl =
+      "https://b85b-2402-800-6311-2b02-818d-cb65-4382-323.ngrok-free.app";
   static final Uri loginUrl = Uri.parse('$baseUrl/loginMobile');
   static final Uri registerUrl = Uri.parse('$baseUrl/registerMobile');
   static final Uri updateUrl = Uri.parse('$baseUrl/updateMobile');
@@ -12,4 +13,5 @@ class APIConstants {
       Uri.parse('$baseUrl/getHistoryByDateAsc');
   static final Uri getHistoryByScore = Uri.parse('$baseUrl/getHistoryByScore');
   static final Uri deleteImageUrl = Uri.parse('$baseUrl/deleteImage');
+  static final Uri googleOauth = Uri.parse('$baseUrl/authenticate_user');
 }

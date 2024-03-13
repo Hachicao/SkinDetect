@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:project/src/common_widgets/api_constanst/api_constanst.dart';
 import 'package:project/src/features/authentication/models/user_model.dart';
 import 'package:project/src/features/authentication/screens/login/login_screen.dart';
 import 'package:project/src/features/core/models/dashboard/history_model.dart';
-import 'package:project/src/features/core/screens/dashboard/profile/profile_screen.dart';
 import 'package:project/src/features/core/screens/main_dashboard/dashboard_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -24,12 +24,18 @@ class UserController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController dateJoinedController = TextEditingController();
 
   static final _loginUrl = APIConstants.loginUrl;
   static final _registerUrl = APIConstants.registerUrl;
   static final _updateUrl = APIConstants.updateUrl;
-  var selectedImagePath = ''.obs;
+  static final _googleOauth = APIConstants.googleOauth;
 
+  var selectedImagePath = ''.obs;
+  var updateButtonEnabled = false;
   void getImage(ImageSource imageSource) async {
     final XFile? pickedFile =
         await ImagePicker().pickImage(source: imageSource);
@@ -51,7 +57,7 @@ class UserController extends GetxController {
     }
   }
 
-// Custom date parsing function to handle the specific format
+  // Custom date parsing function to handle the specific format
   DateTime parseDateString(String dateString) {
     try {
       final parsedDate = DateTime.parse(dateString);
@@ -90,6 +96,10 @@ class UserController extends GetxController {
           passwordController.text = userModel!.userPassword;
           addressController.text = userModel!.userAddress ?? '';
           userIdController.text = userModel!.userId.toString();
+          firstNameController.text = userModel!.firstName ?? '';
+          lastNameController.text = userModel!.lastName ?? '';
+          genderController.text = userModel!.gender ?? '';
+          dateJoinedController.text = userModel!.dateJoined;
           // print('userModel: $userModel');
           // print('email: ${userModel!.userEmail}');
           // print('passs: ${userModel!.userPassword}');
@@ -98,7 +108,7 @@ class UserController extends GetxController {
           // print('dob: ${userModel!.userDob}');
           // print('id: ${userModel!.userId}');
           // print('name: ${userModel!.userName}');
-          // print('avata: ${userModel!.userAvatar}');
+          print('avata: ${userModel!.userAvatar}');
 
           AwesomeDialog(
             context: Get.context!,
@@ -161,16 +171,17 @@ class UserController extends GetxController {
     return user.userId.toString();
   }
 
+  // register
   Future<void> registerUser(
     String email,
-    String userName,
     String password,
+    String confirmPassword,
   ) async {
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     final body = {
       'email': email,
-      'user_name': userName,
       'password': password,
+      'confirm_password': confirmPassword,
     };
     final response =
         await http.post(_registerUrl, headers: headers, body: body);
@@ -198,24 +209,23 @@ class UserController extends GetxController {
           },
         ).show();
       } else {
-        AwesomeDialog(
-          context: Get.context!,
-          animType: AnimType.scale,
-          dialogType: DialogType.error,
-          body: const Center(
-            child: Text(
-              'Register Unsuccessfull',
-              style: TextStyle(
-                  fontStyle: FontStyle.normal,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-          ),
-          btnOkColor: Colors.red,
-          //icon cancel
-          btnCancelOnPress: () {},
-        ).show();
+        print('email already exists');
+        showDialog(
+            context: Get.context!,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Email already exists'),
+                content: const Text('Please try another email'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            });
       }
     } else {
       AwesomeDialog(
@@ -240,52 +250,108 @@ class UserController extends GetxController {
   }
 
   Future<void> updateUser() async {
+    // Disable the button initially
+    // Assuming `updateButtonEnabled` is a variable that determines the button's enabled state
+    updateButtonEnabled = false;
+
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    final file = File(selectedImagePath.value);
-    if (!file.existsSync()) {
-      Get.snackbar("Error", "Image not found",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-      return;
+    dynamic bytes;
+    String? base64Image;
+
+    // Check if a new image is selected
+    if (selectedImagePath.value.isNotEmpty) {
+      final file = File(selectedImagePath.value);
+      if (file.path.isEmpty) {
+        Get.snackbar("Error", "Image not found",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+        return;
+      }
+      bytes = await file.readAsBytes();
+      base64Image = base64Encode(bytes);
     }
-    final bytes = await file.readAsBytes();
-    final base64Image = base64Encode(bytes);
+
     final body = {
-      'email': emailController.text,
-      'user_name': nameController.text,
-      // 'password': passwordController.text,
+      // 'email': emailController.text,
+      'first_name': firstNameController.text,
+      'last_name': lastNameController.text,
+      'gender': genderController.text,
       'user_address': addressController.text,
-      'user_phone': phoneController.text,
       'user_dob': birthdayController.text,
+      'user_phone': phoneController.text,
       'user_id': userIdController.text,
-      'user_avatar': base64Image,
     };
+
+    // Include user_avatar only if a new image is selected
+    if (base64Image != null) {
+      body['user_avatar'] = base64Image;
+    } else if (userModel!.userAvatar != null) {
+      body['user_avatar'] = userModel!.userAvatar!;
+    }
     final response = await http.post(_updateUrl, headers: headers, body: body);
+    // Enable the button after receiving a response from the server
+    // Here, you can set `updateButtonEnabled` to true
+    updateButtonEnabled = true;
     if (response.statusCode == 200) {
       final dataReceived = jsonDecode(response.body);
       print('dataReceived update: $dataReceived');
       final result = dataReceived['placement'];
       if (result == 0) {
-        AwesomeDialog(
-          context: Get.context!,
-          animType: AnimType.scale,
-          dialogType: DialogType.success,
-          body: const Center(
-            child: Text(
-              'Update Successfull',
-              style: TextStyle(
-                  fontStyle: FontStyle.normal,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
+        final userData = dataReceived['user'];
+        if (userData != null) {
+          userModel = User.fromJson(userData);
+          nameController.text = userModel!.userName;
+          emailController.text = userModel!.userEmail;
+          String dateReceived = userModel!.userDob.toString();
+          var formattedDate =
+              DateFormat('yyyy-MM-dd').format(parseDateString(dateReceived));
+          birthdayController.text = formattedDate;
+          phoneController.text = userModel!.userPhone ?? '';
+          addressController.text = userModel!.userAddress ?? '';
+          userIdController.text = userModel!.userId.toString();
+          firstNameController.text = userModel!.firstName ?? '';
+          lastNameController.text = userModel!.lastName ?? '';
+          genderController.text = userModel!.gender ?? '';
+          dateJoinedController.text = userModel!.dateJoined;
+          AwesomeDialog(
+            context: Get.context!,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: const Center(
+              child: Text(
+                'Update Successfull',
+                style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
             ),
-          ),
-          btnOkOnPress: () {
-            Get.to(() => ProfileScreen());
-          },
-        ).show();
+            btnOkOnPress: () {
+              Get.to(() => const DashboardScreen());
+            },
+          ).show();
+        } else {
+          AwesomeDialog(
+            context: Get.context!,
+            animType: AnimType.scale,
+            dialogType: DialogType.error,
+            body: const Center(
+              child: Text(
+                'Update Unsuccessfull',
+                style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25),
+              ),
+            ),
+            btnOkColor: Colors.red,
+          ).show();
+        }
       } else {
+        print("statuscode wrong");
         AwesomeDialog(
           context: Get.context!,
           animType: AnimType.scale,
@@ -301,28 +367,51 @@ class UserController extends GetxController {
             ),
           ),
           btnOkColor: Colors.red,
+          //icon cancel
+          btnCancelOnPress: () {},
         ).show();
       }
+    }
+  }
+
+  // api login by google account
+  Future<void> authenticateUser(GoogleSignIn userGoogle) async {
+    final String? accessToken =
+        (await userGoogle.currentUser!.authentication).accessToken;
+
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    final body = {'access_token': accessToken!};
+
+    final response =
+        await http.post(_googleOauth, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final dataReceived = jsonDecode(response.body);
+      final userData = dataReceived['user'];
+      if (userData != null) {
+        userModel = User.fromJson(userData);
+        nameController.text = userModel!.userName;
+        emailController.text = userModel!.userEmail;
+        String dateReceived = userModel!.userDob.toString();
+        var formattedDate =
+            DateFormat('yyyy-MM-dd').format(parseDateString(dateReceived));
+        birthdayController.text = formattedDate;
+        phoneController.text = userModel!.userPhone ?? '';
+        passwordController.text = userModel!.userPassword;
+        addressController.text = userModel!.userAddress ?? '';
+        userIdController.text = userModel!.userId.toString();
+        firstNameController.text = userModel!.firstName ?? '';
+        lastNameController.text = userModel!.lastName ?? '';
+        genderController.text = userModel!.gender ?? '';
+        dateJoinedController.text = userModel!.dateJoined;
+      }
+      final flag = dataReceived['isLogin'];
+      if (flag) {
+        Get.to(() => const DashboardScreen());
+      } else {
+        Get.to(() => const LoginScreen());
+      }
     } else {
-      print("statuscode wrong");
-      AwesomeDialog(
-        context: Get.context!,
-        animType: AnimType.scale,
-        dialogType: DialogType.error,
-        body: const Center(
-          child: Text(
-            'Update Unsuccessfull',
-            style: TextStyle(
-                fontStyle: FontStyle.normal,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 25),
-          ),
-        ),
-        btnOkColor: Colors.red,
-        //icon cancel
-        btnCancelOnPress: () {},
-      ).show();
+      print('user data is null');
     }
   }
 

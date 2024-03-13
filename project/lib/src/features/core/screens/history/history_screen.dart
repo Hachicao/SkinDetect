@@ -1,25 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
 import 'package:project/src/features/core/models/dashboard/dropdown_model.dart'; // Import your DropdownModel
-import 'package:project/src/features/core/models/dashboard/history_model.dart';
 import 'package:project/src/features/core/screens/detail/detail_screen_history.dart';
 import 'package:project/src/features/core/screens/undowidgets/flushbars.dart';
 
-enum Action { share, delete }
+enum Action { donwload, delete }
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  const HistoryScreen({super.key});
 
-  @override
   _HistoryScreenState createState() => _HistoryScreenState();
 }
 
@@ -35,8 +35,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
     skinDetectController.fetchHistory();
   }
 
-  @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: tbackgroundColor,
       appBar: AppBar(
@@ -76,7 +76,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   children: [
                     const Icon(
                       LineAwesomeIcons.filter,
-                      size: 25,
+                      size: 20,
                       color: tIcon,
                     ),
                     const SizedBox(width: 5),
@@ -164,16 +164,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               motion: const StretchMotion(),
                               children: [
                                 SlidableAction(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(size.width * 0.02),
                                   // borderRadius: BorderRadius.circular(10),
                                   backgroundColor: tPrimaryColor,
-                                  icon: Icons.share,
-                                  label: 'Share',
+                                  icon: Icons.download,
+                                  label: 'donwload',
                                   onPressed: (context) =>
-                                      _onDismissed(index, Action.share),
+                                      _onDismissed(index, Action.donwload),
                                 ),
                                 SlidableAction(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(size.width * 0.02),
                                   // borderRadius: BorderRadius.circular(10),
                                   backgroundColor: Colors.red,
                                   icon: Icons.delete,
@@ -185,7 +185,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               ],
                             ),
                             child: Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: EdgeInsets.all(size.width * 0.02),
                               decoration: const BoxDecoration(
                                 // borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
@@ -322,8 +322,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
 Future<void> _onDismissed(int index, Action action) async {
   final skinDetectController = Get.find<SkinDetectController>();
   final historyItem = skinDetectController.historyList[index];
+  final Size size = MediaQuery.of(Get.context!).size;
   switch (action) {
-    case Action.share:
+    case Action.donwload:
+      List<int> imageBytes = base64Decode(historyItem.detectPhoto);
+      await ImageGallerySaver.saveImage(
+        Uint8List.fromList(imageBytes),
+        quality: 60,
+        name: historyItem.detectName,
+      );
+      Flushbar(
+        message: "Image has been saved to gallery",
+        duration: const Duration(seconds: 3),
+      ).show(Get.context!);
       break;
     case Action.delete:
       Get.dialog(
@@ -341,7 +352,7 @@ Future<void> _onDismissed(int index, Action action) async {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(size.width * 0.05),
                     child: Material(
                       color: Colors.white,
                       child: Column(

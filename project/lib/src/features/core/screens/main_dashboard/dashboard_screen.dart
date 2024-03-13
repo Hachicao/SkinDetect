@@ -8,9 +8,8 @@ import 'package:project/src/features/core/screens/dashboard/widgets/navigation_b
 import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
-  @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
@@ -21,7 +20,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     skinDetectController.fetchHistory();
-    skinDetectController.fetchListDetails();
+    // skinDetectController.fetchListDetails();
   }
 
   Widget build(BuildContext context) {

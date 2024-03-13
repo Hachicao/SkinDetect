@@ -1,12 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_icons/icons8.dart';
 import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:project/src/features/authentication/controllers/on_boarding_controller.dart';
-import 'package:project/src/features/authentication/screens/welcome/welcome_screen.dart';
+import 'package:project/src/features/core/screens/detect/before_skin_detect_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:lottie/lottie.dart';
 
-class OnBoardingScreen extends StatelessWidget {
+class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
+
+  @override
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
+}
+
+class _OnBoardingScreenState extends State<OnBoardingScreen>
+    with TickerProviderStateMixin {
+  AnimationController? _forwardController;
+
+  @override
+  void initState() {
+    super.initState();
+    _forwardController = AnimationController(
+        vsync: this, duration: const Duration(seconds: 1));
+    _startAnimation();
+  }
+
+  @override
+  void dispose() {
+    _forwardController?.dispose();
+    super.dispose();
+  }
+
+  void _startAnimation() {
+    _forwardController?.reset();
+    _forwardController?.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +76,31 @@ class OnBoardingScreen extends StatelessWidget {
             right: 30,
             child: TextButton(
               onPressed: () {
-                Get.offAll(() => const WelcomeScreen());
+                Get.offAll(() => BeforeSkinDetectScreen());
               },
-              child: const Text(
-                "Skip",
-                style: TextStyle(color: Colors.black, fontSize: 20),
+              child: Row(
+                children: [
+                  const Text(
+                    "Continue as guest",
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                    splashRadius: 50,
+                    iconSize: 20,
+                    onPressed: () {
+                      _startAnimation();
+                      Get.offAll(() => BeforeSkinDetectScreen());
+                    },
+                    icon: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Lottie.asset(Icons8.tap,
+                          height: 50,
+                          width: 50,
+                          controller: _forwardController),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

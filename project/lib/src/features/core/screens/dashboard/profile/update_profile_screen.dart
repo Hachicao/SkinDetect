@@ -7,18 +7,27 @@ import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
-import 'package:project/src/constants/size.dart';
 import 'package:project/src/constants/text_string.dart';
 import '../../../controllers/user_controller.dart';
 
-class UpdateProfileScreen extends StatelessWidget {
-  const UpdateProfileScreen({Key? key}) : super(key: key);
+class UpdateProfileScreen extends StatefulWidget {
+  const UpdateProfileScreen({super.key});
 
+  @override
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
+}
+
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     UserController userController = Get.put(UserController());
     final userModel = userController.getUserModel;
     Image userAvatarImage;
+    // DateTime? dateJoined = userModel?.dateJoined != null
+    //     ? DateTime.parse(userModel!.dateJoined!)
+    //     : null;
+
     if (userModel!.userAvatar != null) {
       final base64Avatar = userModel.userAvatar;
       try {
@@ -34,6 +43,7 @@ class UpdateProfileScreen extends StatelessWidget {
       userAvatarImage =
           Image.asset(tProfileLogo); // Replace with a default image
     }
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: tbackgroundColor,
       appBar: AppBar(
@@ -48,7 +58,7 @@ class UpdateProfileScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(tDefaultSize),
+          padding: EdgeInsets.all(size.width * 0.05),
           child: Column(
             children: [
               // -- IMAGE with ICON
@@ -102,29 +112,132 @@ class UpdateProfileScreen extends StatelessWidget {
 
               // -- Form Fields
               Form(
+                key: _formKey,
                 child: Column(
                   children: [
-                    FutureBuilder<String?>(
-                      // future: userController.getUserName(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return TextFormField(
-                            controller: userController.nameController,
-                            // initialValue: snapshot.data ?? '',
-                            decoration: const InputDecoration(
-                              label: Text(tFullName),
-                              prefixIcon: Icon(LineAwesomeIcons.user),
-                            ),
-                          );
-                        }
-                      },
-                      future: null,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FutureBuilder<String?>(
+                            // future: userController.getUserName(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return TextFormField(
+                                  controller:
+                                      userController.firstNameController,
+                                  // initialValue: snapshot.data ?? '',
+                                  decoration: const InputDecoration(
+                                    label: Text('First Name'),
+                                    prefixIcon: Icon(Icons.person_4_outlined,
+                                        color: Colors.black),
+                                  ),
+                                );
+                              }
+                            },
+                            future: null,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: FutureBuilder<String?>(
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return TextFormField(
+                                  controller: userController.lastNameController,
+                                  // initialValue: snapshot.data ?? '',
+                                  decoration: const InputDecoration(
+                                    label: Text('Last Name'),
+                                    prefixIcon: Icon(Icons.person_4_outlined,
+                                        color: Colors.black),
+                                  ),
+                                );
+                              }
+                            },
+                            future: null,
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                        bottom:
+                            BorderSide(color: Colors.black.withOpacity(0.5)),
+                      )),
+                      child: Row(
+                        children: [
+                          // Padding(
+                          //   padding: EdgeInsets.only(left: size.width * 0.02),
+                          //   child: const Row(
+                          //     children: [
+                          //       Icon(Icons.person, color: Colors.black),
+                          //       SizedBox(width: 5),
+                          //       Text('Gender')
+                          //     ],
+                          //   ),
+                          // ),
+                          Flexible(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Radio(
+                                  value: 'Male',
+                                  groupValue:
+                                      userController.genderController.text,
+                                  onChanged: (value) {
+                                    setState(
+                                      () {
+                                        userController.genderController.text =
+                                            value.toString();
+                                      },
+                                    );
+                                  },
+                                ),
+                                const Text(
+                                  'Male',
+                                ),
+                                Radio(
+                                  value: 'Female',
+                                  groupValue:
+                                      userController.genderController.text,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userController.genderController.text =
+                                          value.toString();
+                                    });
+                                  },
+                                ),
+                                const Text('Female'),
+                                Radio(
+                                  value: 'Other',
+                                  groupValue:
+                                      userController.genderController.text,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userController.genderController.text =
+                                          value.toString();
+                                    });
+                                  },
+                                ),
+                                const Text('Other'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
                     const SizedBox(height: 10),
                     FutureBuilder<String?>(
                       // future: userController.getUserAddress(),
@@ -139,14 +252,17 @@ class UpdateProfileScreen extends StatelessWidget {
                             // initialValue: snapshot.data ?? '',
                             controller: userController.addressController,
                             decoration: const InputDecoration(
-                                label: Text(tAddress),
-                                prefixIcon:
-                                    Icon(LineAwesomeIcons.address_card)),
+                              label: Text(tAddress),
+                              prefixIcon: Icon(Icons.add_home_work_sharp,
+                                  color: Colors.black),
+                            ),
                           );
                         }
                       },
                       future: null,
                     ),
+
+                    const SizedBox(height: 10),
 
                     //date picker
                     const SizedBox(height: 10),
@@ -163,8 +279,10 @@ class UpdateProfileScreen extends StatelessWidget {
                             // controller: dateinput.text == '' ? null : dateinput,
                             controller: userController.birthdayController,
                             decoration: const InputDecoration(
-                                label: Text(tDob),
-                                prefixIcon: Icon(LineAwesomeIcons.calendar)),
+                              label: Text(tDob),
+                              prefixIcon: Icon(Icons.date_range_outlined,
+                                  color: Colors.black),
+                            ),
                             readOnly: true,
                             onTap: () async {
                               final DateTime? picked = await showDatePicker(
@@ -205,62 +323,27 @@ class UpdateProfileScreen extends StatelessWidget {
                             // initialValue: snapshot.data ?? '',
                             controller: userController.phoneController,
                             decoration: const InputDecoration(
-                                label: Text(tPhoneNo),
-                                prefixIcon: Icon(LineAwesomeIcons.phone)),
+                              label: Text(tPhoneNo),
+                              prefixIcon:
+                                  Icon(Icons.phone, color: Colors.black),
+                            ),
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your phone number';
+                              }
+                              // example 1234567890
+                              if (!RegExp(r"^(?:[+0]9)?[0-9]{10}$")
+                                  .hasMatch(value)) {
+                                return 'Please enter valid phone number';
+                              }
+                              return null;
+                            },
                           );
                         }
                       },
                       future: null,
                     ),
-
-                    const SizedBox(height: 10),
-                    FutureBuilder<String?>(
-                      // future: userController.getUserEmail(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return TextFormField(
-                            // initialValue: snapshot.data ?? '',
-                            controller: userController.emailController,
-                            decoration: const InputDecoration(
-                                label: Text(tEmail),
-                                prefixIcon: Icon(LineAwesomeIcons.mail_bulk)),
-                          );
-                        }
-                      },
-                      future: null,
-                    ),
-
-                    // const SizedBox(height: 10),
-                    // FutureBuilder<String?>(
-                    //   // future: userController.getUserPassword(),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState ==
-                    //         ConnectionState.waiting) {
-                    //       return const CircularProgressIndicator();
-                    //     } else if (snapshot.hasError) {
-                    //       return Text('Error: ${snapshot.error}');
-                    //     } else {
-                    //       return TextFormField(
-                    //         // initialValue: snapshot.data ?? '',
-                    //         controller: userController.passwordController,
-                    //         obscureText: true,
-                    //         decoration: InputDecoration(
-                    //           label: const Text(tPassword),
-                    //           prefixIcon: const Icon(Icons.fingerprint),
-                    //           suffixIcon: IconButton(
-                    //               icon: const Icon(LineAwesomeIcons.eye_slash),
-                    //               onPressed: () {}),
-                    //         ),
-                    //       );
-                    //     }
-                    //   },
-                    //   future: null,
-                    // ),
 
                     const SizedBox(height: 20),
 
@@ -268,7 +351,11 @@ class UpdateProfileScreen extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () => userController.updateUser(),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            userController.updateUser();
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: tButtonColor,
                             side: BorderSide.none,
@@ -280,22 +367,17 @@ class UpdateProfileScreen extends StatelessWidget {
                     const SizedBox(height: 10),
 
                     // -- Created Date and Delete Button
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text.rich(
-                          TextSpan(
-                            text: tJoined,
-                            style: TextStyle(fontSize: 12),
-                            children: [
-                              TextSpan(
-                                  text: tJoinedAt,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12))
-                            ],
-                          ),
-                        ),
+                        // Text(
+                        //   'Joined: ${dateJoined != null ? DateFormat('dd-MM-yyyy').format(dateJoined) : 'N/A'}',
+                        //   style: const TextStyle(
+                        //       fontSize: 15,
+                        //       fontWeight: FontWeight.normal,
+                        //       color: Colors.black),
+                        // ),
                         ElevatedButton(
                           onPressed: () {
                             userController.nameController.clear();

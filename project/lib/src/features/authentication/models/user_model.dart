@@ -8,6 +8,11 @@ class User {
   String userEmail;
   String userPassword;
   String? userAvatar;
+  String firstName;
+  String lastName;
+  String gender;
+  String dateJoined;
+  // int isActive;
 
   User({
     required this.userId,
@@ -19,6 +24,11 @@ class User {
     required this.userEmail,
     required this.userPassword,
     required this.userAvatar,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.dateJoined,
+    // required this.isActive,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -32,6 +42,11 @@ class User {
       userEmail: json['user_email'].toString(),
       userPassword: json['user_password'].toString(),
       userAvatar: json['user_avatar'],
+      firstName: json['first_name'].toString(),
+      lastName: json['last_name'].toString(),
+      gender: json['gender'].toString(),
+      dateJoined: json['date_joined'].toString(),
+      // isActive: json['is_active'],
     );
   }
 
@@ -47,6 +62,15 @@ class User {
     data['user_email'] = userEmail;
     data['user_password'] = userPassword;
     data['user_avatar'] = userAvatar;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['gender'] = gender;
+    data['date_joined'] = dateJoined;
+    // data['is_active'] = isActive;
     return data;
+  }
+
+  String getFullName() {
+    return "$firstName $lastName";
   }
 }

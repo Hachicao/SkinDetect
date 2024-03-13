@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +10,7 @@ import 'package:project/src/features/core/controllers/skin_detect_controller.dar
 import 'package:project/src/features/core/controllers/user_controller.dart';
 
 class BeforeSkinDetectScreen extends StatelessWidget {
-  BeforeSkinDetectScreen({Key? key}) : super(key: key);
+  BeforeSkinDetectScreen({super.key});
   final List<OnBoardingModel> items = [
     OnBoardingModel(
       images: tOnBoardingImage1,

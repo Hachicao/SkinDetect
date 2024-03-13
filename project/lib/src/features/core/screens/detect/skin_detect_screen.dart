@@ -1,11 +1,12 @@
 import 'dart:io';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
-import 'package:project/src/features/authentication/models/user_model.dart';
 import 'package:project/src/features/core/controllers/skin_detect_controller.dart';
 import 'package:project/src/features/core/controllers/user_controller.dart';
 import 'package:project/src/features/core/screens/detail/detail_screen.dart';
@@ -82,10 +83,17 @@ class SkinDetectScreen extends StatelessWidget {
                         }),
                         IconButton(
                           onPressed: () async {
-                            await imageController.saveData();
+                            final result = await ImageGallerySaver.saveFile(
+                                imageController.selectedImagePath.value);
+                            if (result != null) {
+                              Flushbar(
+                                message: "Image has been saved to gallery",
+                                duration: const Duration(seconds: 3),
+                              ).show(Get.context!);
+                            }
                           },
                           icon: const Icon(
-                            Icons.share,
+                            Icons.download,
                             color: Colors.blue,
                           ),
                         )

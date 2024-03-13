@@ -5,19 +5,24 @@ import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/core/controllers/user_controller.dart';
 
 class SignUpFormWidget extends StatefulWidget {
-  SignUpFormWidget({Key? key}) : super(key: key);
+  const SignUpFormWidget({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignUpFormWidgetState createState() => _SignUpFormWidgetState();
 }
 
 class _SignUpFormWidgetState extends State<SignUpFormWidget> {
+  final _formKey = GlobalKey<FormState>();
   final UserController userController = Get.put(UserController());
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   bool isPasswordVisible = false;
-
+  String _password = '';
+  String _confirmPassword = '';
   @override
   void dispose() {
     emailController.dispose();
@@ -37,6 +42,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Form(
+        key: _formKey, // Asssign the form key
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -59,29 +65,18 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                     borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: fullNameController,
-                decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.person_2_outlined,
-                    color: Colors.black,
-                  ),
-                  labelText: tFullName,
-                  hintText: tFullName,
-                  floatingLabelStyle: TextStyle(color: Colors.blue),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                          .hasMatch(value) ==
+                      false) {
+                    return 'Please enter valid email';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(
                 height: 10,
@@ -91,7 +86,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 obscureText: !isPasswordVisible,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(
-                    Icons.fingerprint_rounded,
+                    Icons.password_outlined,
                     color: Colors.black,
                   ),
                   focusedBorder: const OutlineInputBorder(
@@ -113,6 +108,63 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                     ),
                   ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _password = value;
+                  });
+                },
+                keyboardType: TextInputType.visiblePassword,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                controller: confirmPasswordController,
+                obscureText: !isPasswordVisible,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.password_outlined,
+                    color: Colors.black,
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                  floatingLabelStyle: const TextStyle(color: Colors.blue),
+                  labelText: 'Confirm Password',
+                  hintText: 'Confirm Password',
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: togglePasswordVisibility,
+                    icon: Icon(
+                      isPasswordVisible
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                  ),
+                ),
+                keyboardType: TextInputType.visiblePassword,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your confirm password';
+                  }
+                  if (value != _password) {
+                    return 'Password does not match';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(
                 height: 20,
@@ -122,14 +174,16 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    userController.registerUser(
-                      emailController.text,
-                      fullNameController.text,
-                      passwordController.text,
-                    );
-                    print('Email => ${emailController.text}');
-                    print('user_name => ${fullNameController.text}');
-                    print('password => ${passwordController.text}');
+                    if (_formKey.currentState!.validate()) {
+                      userController.registerUser(
+                        emailController.text,
+                        passwordController.text,
+                        confirmPasswordController.text,
+                      );
+                      print('Email => ${emailController.text}');
+                      print('password => ${passwordController.text}');
+                      print('user_name => ${confirmPasswordController.text}');
+                    }
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: tButtonColor,

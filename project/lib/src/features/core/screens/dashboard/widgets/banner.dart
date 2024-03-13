@@ -35,7 +35,7 @@ class DashboardBanners extends StatelessWidget {
                       children: [
                         Flexible(
                             child: Image(image: AssetImage(tBookmarkIcon))),
-                        Flexible(child: Image(image: AssetImage(tBanner1))),
+                        Flexible(child: Image(image: AssetImage(tBanner5))),
                       ],
                     ),
                     const SizedBox(

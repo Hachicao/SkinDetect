@@ -142,6 +142,8 @@ class SkinDetectController extends GetxController {
       } else if (response.statusCode == 500) {
         final jsonResponse = jsonDecode(response.body);
         result.value = Result.fromJson(jsonResponse);
+        skinDetectController.fetchHistory();
+
         print('placment: ${result.value!.placement}');
         print('score: ${result.value!.score}');
       }

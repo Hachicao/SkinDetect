@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project/src/features/authentication/screens/login/widgets/google_sign_in.dart';
 import 'package:project/src/features/authentication/screens/signup/signup_screen.dart';
+import 'package:project/src/features/core/controllers/user_controller.dart';
+import 'package:project/src/features/core/screens/main_dashboard/dashboard.dart';
 
 import '../../../../../constants/image_string.dart';
 import '../../../../../constants/text_string.dart';
@@ -25,7 +28,7 @@ class LoginFooterWidget extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
-            onPressed: () {},
+            onPressed: signIn,
             label: Text(tSignInWithGoogle.toUpperCase(),
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black)),
@@ -54,5 +57,16 @@ class LoginFooterWidget extends StatelessWidget {
                 ])))
       ],
     );
+  }
+
+  Future signIn() async {
+    // final _user = await GoogleSignInApi.login();
+    final _user = GoogleSignInApi.doAuthenticateUser();
+    if (_user == null) {
+      print('Sign in failed');
+    } else {
+      print('User => $_user');
+      // Get.to(() => const Dashboard());
+    }
   }
 }

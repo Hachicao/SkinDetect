@@ -4,6 +4,8 @@
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
+source 'https://github.com/CocoaPods/Specs.git'
+
 project 'Runner', {
   'Debug' => :debug,
   'Profile' => :release,
@@ -39,6 +41,8 @@ target 'Runner' do
   # Your pods go here
   pod 'Alamofire', '~> 5.4'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'GoogleSignIn', '~> 7.0'
+
 end
 # target 'Runner' do
 #   platform :ios, '12.0'  # Specify the iOS version you're targeting

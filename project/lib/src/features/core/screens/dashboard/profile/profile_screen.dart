@@ -1,27 +1,25 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:project/src/constants/color.dart';
 import 'package:project/src/constants/image_string.dart';
 import 'package:project/src/constants/size.dart';
-import 'package:project/src/constants/text_string.dart';
 import 'package:project/src/features/authentication/screens/login/login_screen.dart';
 import 'package:project/src/features/core/controllers/user_controller.dart';
+import 'package:project/src/features/core/screens/dashboard/profile/about_us.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/profile_menu_screen.dart';
 import 'package:project/src/features/core/screens/dashboard/profile/update_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     UserController userController = Get.put(UserController());
-
     final userModel = userController.getUserModel;
-    final userName = userModel?.userName.toString();
     final userEmail = userModel?.userEmail.toString();
+    final fullName = userModel?.getFullName();
     Image userAvatarImage;
     if (userModel!.userAvatar != null) {
       final base64Avatar = userModel.userAvatar;
@@ -59,8 +57,8 @@ class ProfileScreen extends StatelessWidget {
               Stack(
                 children: [
                   SizedBox(
-                    width: 120,
-                    height: 120,
+                    width: 150,
+                    height: 150,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
@@ -76,53 +74,50 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              Text("Hi $userName!",
+              Text("$fullName",
                   style: const TextStyle(
                       fontSize: 30, fontWeight: FontWeight.bold)),
               Text("$userEmail",
                   style: const TextStyle(
                       fontSize: 15, fontWeight: FontWeight.normal)),
-              const SizedBox(height: 20),
+              // const SizedBox(height: 20),
 
               /// -- BUTTON
-              SizedBox(
-                width: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(() => const UpdateProfileScreen());
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: tButtonColor,
-                      side: BorderSide.none,
-                      shape: const StadiumBorder()),
-                  child: const Text(tEditProfile,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                ),
-              ),
+              // SizedBox(
+              //   width: 200,
+              //   child: ElevatedButton(
+              //     onPressed: () {
+
+              //     },
+              //     style: ElevatedButton.styleFrom(
+              //         backgroundColor: tButtonColor,
+              //         side: BorderSide.none,
+              //         shape: const StadiumBorder()),
+              //     child: const Text(tEditProfile,
+              //         style: TextStyle(
+              //             color: Colors.white, fontWeight: FontWeight.bold)),
+              //   ),
+              // ),
               const SizedBox(height: 30),
               const Divider(),
               const SizedBox(height: 10),
 
               /// -- MENU
               ProfileMenuWidget(
-                  title: "Settings",
-                  icon: LineAwesomeIcons.cog,
-                  onPress: () {}),
-              ProfileMenuWidget(
-                  title: "Billing Details",
-                  icon: LineAwesomeIcons.wallet,
-                  onPress: () {}),
-              ProfileMenuWidget(
-                  title: "User Management",
-                  icon: LineAwesomeIcons.user_check,
-                  onPress: () {}),
-              const Divider(),
+                  title: "Edit Profile",
+                  icon: LineAwesomeIcons.pen,
+                  onPress: () {
+                    Get.to(() => const UpdateProfileScreen());
+                  }),
+
               const SizedBox(height: 10),
               ProfileMenuWidget(
-                  title: "Information",
-                  icon: LineAwesomeIcons.info,
-                  onPress: () {}),
+                  title: "About us",
+                  icon: LineAwesomeIcons.info_circle,
+                  onPress: () {
+                    Get.to(() => const AboutUs());
+                  }),
+              const Divider(),
               ProfileMenuWidget(
                   title: "Logout",
                   icon: LineAwesomeIcons.alternate_sign_out,

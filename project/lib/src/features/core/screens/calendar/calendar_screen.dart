@@ -98,6 +98,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Calendar'),
@@ -179,7 +180,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         vertical: 4.0,
                       ),
                       child: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.all(size.width * 0.02),
                         decoration: const BoxDecoration(
                           // borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
@@ -195,7 +196,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             GestureDetector(
-                            onTap: () async {
+                              onTap: () async {
                                 await skinDetectController
                                     .fetchDetail(historyItem.diseaseId);
                                 double? scoreApi = historyItem.detectScore;

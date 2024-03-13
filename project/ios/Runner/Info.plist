@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>your usage description here</string>
+	<string>Allow access to the camera to take photos and videos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Allow access to save photos and videos to the photo library.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>your usage description here</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -51,5 +53,17 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>GIDClientID</key>
+	<string>206785505331-o6ho2if29bj88no4o42tjtpeukh9gbm2.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.206785505331-o6ho2if29bj88no4o42tjtpeukh9gbm2</string>
+			</array>
+		</dict>
+	</array>
+	
 </dict>
 </plist>

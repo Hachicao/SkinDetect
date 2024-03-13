@@ -4,17 +4,17 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 
 class DashboardTopSkincancer extends StatelessWidget {
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.network(
-          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+  // final VideoPlayerController _videoPlayerController =
+  //     VideoPlayerController.asset('assets/videos/video2.mp4');
+
   late ChewieController _chewieController;
 
   DashboardTopSkincancer({required Key key}) : super(key: key) {
-    _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
-      autoPlay: false,
-      looping: false,
-    );
+    // _chewieController = ChewieController(
+    //   videoPlayerController: _videoPlayerController,
+    //   autoPlay: false,
+    //   looping: false,
+    // );
   }
 
   @override
@@ -27,7 +27,7 @@ class DashboardTopSkincancer extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => GestureDetector(
-          onTap: list[index].onPress,
+          onTap: () {},
           child: SizedBox(
             width: 320,
             height: 200,
@@ -37,23 +37,8 @@ class DashboardTopSkincancer extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   // color: Color(0xff0fbcf9),
-                  color: const Color.fromARGB(255, 22, 136, 230),
-                  // gradient: const LinearGradient(
-                  //   begin: Alignment.topLeft,
-                  //   end: Alignment(0.8, 1),
-                  //   colors: <Color>[
-                  //     Color(0xff0819CE),
-
-                  //     Color.fromARGB(29, 17, 134, 230),
-                  //     Color.fromARGB(255, 25, 139, 184),
-                  //     // Color(0xffac255e),
-                  //     // Color(0xffca485c),
-                  //     // Color(0xffe16b5c),
-                  //     // Color(0xfff39060),
-                  //     // Color(0xffffb56b),
-                  //   ],
-                  //   tileMode: TileMode.mirror,
-                  // ),
+                  color: const Color.fromARGB(255, 60, 156, 235),
+                  // color: Color.fromARGB(255, 230, 241, 244),
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Column(
@@ -87,28 +72,41 @@ class DashboardTopSkincancer extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 shape: const CircleBorder()),
                             onPressed: () {
+                              final VideoPlayerController
+                                  videoPlayerController =
+                                  VideoPlayerController.asset(
+                                      list[index].videoUrl);
+                              final ChewieController chewieController =
+                                  ChewieController(
+                                videoPlayerController: videoPlayerController,
+                                autoPlay: false,
+                                looping: false,
+                              );
                               showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      content: SizedBox(
-                                        width: 300,
-                                        height: 300,
-                                        child: Chewie(
-                                          controller: _chewieController,
-                                        ),
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(                                   
+                                    contentPadding: EdgeInsets.zero,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.zero,
+                                    ),
+                                    content: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              3,
+                                      child: Chewie(
+                                        controller: chewieController,
                                       ),
-                                      actions: [
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            _videoPlayerController.pause();
-                                          },
-                                          child: const Text('Close'),
-                                        ),
-                                      ],
-                                    );
-                                  });
+                                    ),
+                                  );
+                                },
+                              ).then(
+                                (value) {
+                                  videoPlayerController.dispose();
+                                  chewieController.dispose();
+                                },
+                              );
                             },
                             child: const Icon(Icons.play_arrow)),
                         const SizedBox(

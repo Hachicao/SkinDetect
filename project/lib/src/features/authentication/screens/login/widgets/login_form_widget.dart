@@ -16,6 +16,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isPasswordVisible = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -33,6 +34,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
@@ -42,7 +44,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               controller: emailController,
               decoration: const InputDecoration(
                 prefixIcon: Icon(
-                  Icons.email_outlined,
+                  Icons.account_circle_outlined,
                   color: Colors.black,
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -50,13 +52,24 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   borderSide: BorderSide(color: Colors.blue),
                 ),
                 floatingLabelStyle: TextStyle(color: Colors.blue),
-                labelText: tEmail,
-                hintText: tEmail,
+                labelText: 'Email',
+                hintText: 'Email',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   borderSide: BorderSide(color: Colors.black),
                 ),
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your email';
+                }
+                if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                        .hasMatch(value) ==
+                    false) {
+                  return 'Please enter valid email';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 10,
@@ -66,7 +79,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               obscureText: !isPasswordVisible,
               decoration: InputDecoration(
                 prefixIcon: const Icon(
-                  Icons.fingerprint_rounded,
+                  Icons.password_outlined,
                   color: Colors.black,
                 ),
                 focusedBorder: const OutlineInputBorder(
@@ -86,6 +99,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   ),
                 ),
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 10,
@@ -105,10 +124,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  userController.loginUser(
-                    emailController.text,
-                    passwordController.text,
-                  );
+                  if (_formKey.currentState!.validate()) {
+                    userController.loginUser(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                  }
                   print('Email => ${emailController.text}');
                   print('pass => ${passwordController.text}');
                 },

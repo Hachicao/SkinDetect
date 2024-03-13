@@ -5,8 +5,15 @@ import 'package:project/src/features/authentication/screens/login/widgets/login_
 import 'package:project/src/features/authentication/screens/login/widgets/login_form_widget.dart';
 import 'package:project/src/features/authentication/screens/login/widgets/login_header_widget.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+    final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

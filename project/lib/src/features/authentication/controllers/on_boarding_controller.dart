@@ -47,6 +47,6 @@ class OnBoardingController extends GetxController {
   Future animateToNextSlide() async {
     // int nextPage = controller.currentPage + 1;
     // controller.jumpToPage(page: nextPage);
-    Get.offAll(() => BeforeSkinDetectScreen());
+    Get.offAll(() => const WelcomeScreen());
   }
 }
